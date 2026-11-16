@@ -2,6 +2,7 @@
 
 The documentation site for SnowyPlover, a Grasshopper plugin for architectural animation.
 Plain HTML, CSS and JavaScript, no dependencies. Node 18 or newer runs the build scripts.
+The built site in `dist/` also works when opened straight from disk: double-click `dist/index.html`.
 
 ## Run it locally
 

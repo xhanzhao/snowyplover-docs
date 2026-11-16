@@ -1,7 +1,7 @@
 // Menu, theme switch, search, and live sliders in diagrams.
-import { evaluate } from './diagram.js';
-
-const root = new URL('.', import.meta.url).href.replace(/assets\/$/, '');
+// The build bundles this file with evaluate() from diagram.js into assets/site.bundle.js, a plain
+// script, so the site also works when opened straight from disk (file://) without a server.
+const root = new URL('.', document.currentScript.src).href.replace(/assets\/$/, '');
 
 // ---------------------------------------------------------------- menu + theme
 
@@ -35,7 +35,16 @@ let active = -1;
 
 async function loadIndex() {
   if (index) return index;
-  try { index = await (await fetch(root + 'assets/search.json')).json(); } catch { index = []; }
+  // a script tag instead of fetch(), because fetch() is blocked on file://
+  if (!window.SP_SEARCH) {
+    await new Promise((done) => {
+      const el = document.createElement('script');
+      el.src = root + 'assets/search.js';
+      el.onload = el.onerror = done;
+      document.head.appendChild(el);
+    });
+  }
+  index = window.SP_SEARCH || [];
   return index;
 }
 

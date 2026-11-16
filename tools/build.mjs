@@ -109,7 +109,7 @@ ${body}
 <footer class="foot">Component data from SnowyPlover source <code>${esc(data.sourceCommit || '')}</code>, ${esc(data.generated)}.</footer>
 </main>
 </div>
-<script type="module" src="${root}assets/site.js"></script>
+<script src="${root}assets/site.bundle.js"></script>
 </body>
 </html>
 `;
@@ -220,7 +220,16 @@ for (const o of out) {
       : o.body.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 2000),
   });
 }
-fs.writeFileSync(path.join(DIST, 'assets', 'search.json'), JSON.stringify(search));
+fs.writeFileSync(path.join(DIST, 'assets', 'search.js'), `window.SP_SEARCH = ${JSON.stringify(search)};\n`);
+
+// one classic script: the evaluation helpers from diagram.js plus site.js
+{
+  const diagram = fs.readFileSync(path.join(SRC, 'assets', 'diagram.js'), 'utf8');
+  const helpers = diagram.slice(diagram.indexOf('export function ease')).replace(/^export /gm, '');
+  const site = fs.readFileSync(path.join(SRC, 'assets', 'site.js'), 'utf8');
+  fs.writeFileSync(path.join(DIST, 'assets', 'site.bundle.js'), `(() => {\n${helpers}\n${site}\n})();\n`);
+  for (const f of ['site.js', 'diagram.js']) fs.rmSync(path.join(DIST, 'assets', f));
+}
 fs.writeFileSync(path.join(DIST, '.nojekyll'), '');
 fs.writeFileSync(path.join(DIST, '404.html'), layout({ url: '404.html', title: 'Not found', body: '<h1>Page not found</h1><p>Try the search above, or go back to the <a href="{{root}}index.html">start page</a>.</p>' }).replace(/href="\.\//g, 'href="/snowyplover-docs/').replace(/src="\.\//g, 'src="/snowyplover-docs/'));
 
