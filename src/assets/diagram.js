@@ -15,6 +15,7 @@
 //   on  = toggle true                      Boolean Toggle
 //   b   = button                           Button
 //   g   = param Geometry "Building"        a parameter container (Geometry, Curve, Text ...)
+//   r   = native "Remap Numbers" in="Value, Source, Target" out="Mapped"   any built-in Grasshopper component
 //
 //   nv.camera -> key.cameras               a wire, from an output to an input
 //   t ~> key.t                             "~>" draws the wire in the accent colour (the time signal t)
@@ -76,7 +77,7 @@ export function parseDiagram(text) {
     const node = { key: nm[1], ref: toks[0], args: [], opts: {}, ports: null, line: li + 1 };
     // a component name may be written with spaces: "Animate Keyframes"
     let k = 1;
-    while (k < toks.length && /^[A-Z][\w]*$/.test(toks[k]) && /^[A-Z]/.test(node.ref) && !['slider', 'panel', 'toggle', 'button', 'param'].includes(node.ref)) {
+    while (k < toks.length && /^[A-Z][\w]*$/.test(toks[k]) && /^[A-Z]/.test(node.ref) && !['slider', 'panel', 'toggle', 'button', 'param', 'native'].includes(node.ref)) {
       node.ref += ' ' + toks[k]; k++;
     }
     for (; k < toks.length; k++) {
@@ -115,6 +116,7 @@ function eventsOf(node) {
 
 function shapeFor(node, catalog, errors) {
   const kind = ['slider', 'panel', 'toggle', 'button', 'param'].includes(node.ref) ? node.ref : 'component';
+  const native = node.ref === 'native';
   const s = { key: node.key, kind, node, inputs: [], outputs: [], buttons: [], extraH: 0 };
 
   if (kind === 'slider') {
@@ -145,7 +147,7 @@ function shapeFor(node, catalog, errors) {
     s.lines = s.text.split('\n');
     s.inputs = [{ name: '', key: '', type: 'Generic', access: 'item' }];
     s.outputs = [{ name: '', key: '', type: 'Text', access: 'item' }];
-    s.w = Math.max(110, ...s.lines.map(l => textWidth(l, 11.5) + 22));
+    s.w = Math.max(110, ...s.lines.map(l => [...l].length * 7 + 22));
     s.h = Math.max(30, s.lines.length * 15 + 14);
     return s;
   }
@@ -158,8 +160,12 @@ function shapeFor(node, catalog, errors) {
     return s;
   }
 
-  // a SnowyPlover component
-  const c = catalog.find(node.ref);
+  // a SnowyPlover component, or a native Grasshopper one: native "Remap Numbers" in="Value, Target" out="Mapped"
+  const list = (v) => (v || '').split(',').map(x => x.trim()).filter(Boolean)
+    .map(name => ({ name, nickname: '', type: 'Generic', access: 'item', description: '' }));
+  const c = native
+    ? { id: null, name: node.args[0] || 'Component', nickname: '', inputs: list(node.opts.in), outputs: list(node.opts.out), buttons: [], icon: null, slug: '', native: true }
+    : catalog.find(node.ref);
   if (!c) {
     errors.push(`line ${node.line}: unknown component "${node.ref}"`);
     s.comp = { name: node.ref, nickname: '', inputs: [], outputs: [], buttons: [], icon: null, slug: '' };

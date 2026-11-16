@@ -60,4 +60,62 @@ tr -> jc.transitions
   <li><b>transitionSeconds</b>: how long each transition lasts. The clips overlap by this much, so the film gets shorter.</li>
   <li><b>fadeIn</b> and <b>fadeOut</b> fade from and to black at the start and end.</li>
 </ul>
-<p>Clips of a different size are fitted into the size of the first clip with black bars. To crossfade between two design options, export the same camera move once with each option visible and join the two folders with a crossfade.</p>
+<p>Clips of a different size are fitted into the size of the first clip with black bars.</p>
+
+<h2 id="crossfade">Example: crossfade between two design options</h2>
+<p>[[Design Option Timeline]] can only cut from one option to the next, because a Rhino layer is either on or off. To let option A dissolve into option B while the camera keeps moving, export the same camera move twice, once with each option visible, and join the two folders with a crossfade.</p>
+<p>The two clips must overlap by the length of the crossfade, so that the camera is in the same place on both sides of the blend. Say the whole move takes 10 seconds, the switch happens halfway, and the crossfade lasts 1 second:</p>
+<div class="table"><table>
+<thead><tr><th>Clip</th><th>Visible option</th><th>Part of the move (t)</th><th>totalDuration</th><th>Folder</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>A</td><td><code>0</code> to <code>0.55</code></td><td><code>5.5</code></td><td><code>D:\anim\optionA</code></td></tr>
+<tr><td>B</td><td>B</td><td><code>0.45</code> to <code>1</code></td><td><code>5.5</code></td><td><code>D:\anim\optionB</code></td></tr>
+</tbody></table></div>
+<p>Joined with a 1-second crossfade, the clips overlap from t = 0.45 to 0.55, and the film is 5.5 + 5.5 − 1 = 10 seconds long again.</p>
+
+<h3>1. Export clip A</h3>
+<p>[[View Capture Driver]] always runs <code>master Time</code> from 0 to 1, so remap it to the part of the move this clip covers before it reaches the t hub. Grasshopper's own Remap Numbers does this: set <code>Source</code> to <code>0 To 1</code> and <code>Target</code> to <code>0 To 0.55</code>. To show only option A, feed [[Apply Design Option]] a fixed visibility list instead of Design Option Timeline: <code>True, False</code>. Switch it to <b>Active</b> and click <b>Export Frames</b>.</p>
+
+<pre class="diagram" data-caption="Clip A: the first 55% of the camera move, with only option A visible.">
+len  = panel "5.5"
+dirA = panel "D:\anim\optionA"
+vcd  = ViewCaptureDriver [totalDuration, path]
+src  = panel "0 To 1"
+tgt  = panel "0 To 0.55"
+rm   = native "Remap Numbers" in="Value, Source, Target" out="Mapped"
+hub  = param Number "t"
+key  = AnimateKeyframes [cameras, t]
+cam  = ApplyCamera [camera]
+opts = panel "Options"
+vis  = panel "True\nFalse"
+app  = ApplyDesignOption
+
+len -> vcd.totalDuration
+dirA -> vcd.path
+vcd.masterTime ~> rm.Value
+src -> rm.Source
+tgt -> rm.Target
+rm.Mapped ~> hub
+hub ~> key.t
+key.camera -> cam.camera
+opts -> app.options
+vis -> app.visibility
+</pre>
+
+<h3>2. Export clip B</h3>
+<p>Change three things and export again: <code>Target</code> to <code>0.45 To 1</code>, the visibility to <code>False, True</code>, and <code>path</code> to <code>D:\anim\optionB</code>. Keep <code>totalDuration</code> at 5.5 and the same <code>fps</code>.</p>
+
+<h3>3. Join them with a crossfade</h3>
+<p>List both folders in [[Join Clips]], set <code>transitions</code> to <code>1</code> (crossfade) and <code>transitionSeconds</code> to the overlap, <code>1</code>. Click <b>Join Clips</b>.</p>
+
+<pre class="diagram" data-caption="One 10-second film: the camera never stops, and option A dissolves into option B around the 5-second mark.">
+dirs = panel "D:\anim\optionA\nD:\anim\optionB"
+tr   = panel "1"
+ts   = panel "1"
+jc   = JoinClips [folders, frameRate, transitions, transitionSeconds]
+
+dirs -> jc.folders
+tr -> jc.transitions
+ts -> jc.transitionSeconds
+</pre>
+<p>The same recipe works for more options: export one clip per option, overlapping each neighbour by the length of the crossfade, and list all the folders in order.</p>

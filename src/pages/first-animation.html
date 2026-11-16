@@ -22,20 +22,25 @@ names -> nv.namedViews
 </pre>
 
 <h2>3. Interpolate between them</h2>
-<p>Add [[Animate Keyframes]] and wire the cameras into <code>cameras</code>. Add a Number Slider from 0 to 1 and a Number parameter named <b>t</b> as the <a href="concepts.html#hub">t hub</a>, then wire slider → hub → <code>t</code>.</p>
-<p>Add [[Apply Camera]], wire <code>camera</code> into it, and click its button so it reads <b>Active</b>. Now drag the slider: the Rhino viewport flies from View 1 to View 3.</p>
+<p>Add [[Animate Keyframes]] and wire the cameras into <code>cameras</code>. Its <code>t</code> input decides where along the flight the camera is: 0 is View 1, 1 is View 3. Don't wire <code>t</code> straight from a source. Add a Number parameter, name it <b>t</b>, and wire it into <code>t</code>. This is the <a href="concepts.html#hub">t hub</a>: later you only have to change what feeds it.</p>
+<p>Add [[Apply Camera]], wire <code>camera</code> into it, and click its button so it reads <b>Active</b>. From now on the Rhino viewport follows the camera.</p>
 
-<pre class="diagram" data-caption="Drag the slider in Grasshopper and the viewport follows. Click Apply Camera's button again to stop it from taking over the viewport.">
+<h2>4. Preview with Duration Counter</h2>
+<p>Add [[Duration Counter]] and wire <code>t_Counter</code> into the hub. Set <code>totalDuration</code> to the length you want in seconds (try 6). Click <b>Play</b>: the counter runs from 0 to 1 in 6 seconds, and the viewport flies from View 1 to View 3 at the speed of the final video. <b>Pause</b> holds it, and <b>Reset</b> goes back to the start.</p>
+
+<pre class="diagram" data-caption="Preview: Duration Counter feeds the t hub and plays the flight in real time.">
 names = panel "View 1\nView 2\nView 3"
 nv    = GetCameraFromNamedviews
-s     = slider 0.35 label="preview"
+len   = slider 6 min=1 max=20 label="seconds" digits=0
+dc    = DurationCounter [totalDuration]
 hub   = param Number "t"
 key   = AnimateKeyframes [cameras, t, mode]
 cam   = ApplyCamera
 
 names -> nv.namedViews
 nv.camera -> key.cameras
-s ~> hub
+len -> dc.totalDuration
+dc.t_Counter ~> hub
 hub ~> key.t
 key.camera -> cam.camera
 </pre>
@@ -45,13 +50,17 @@ key.camera -> cam.camera
   <li><b>mode</b>: right-click the component and pick <i>Smooth</i> for a curved path through the camera positions, or leave it <i>Linear</i> for straight segments. With Smooth, <code>curvature</code> (0 to 3) controls how wide the curves swing.</li>
   <li><b>durations</b>: one weight per segment. With three views there are two segments; <code>1, 2</code> spends twice as long on the second one.</li>
 </ul>
-<p>The <code>camPath</code> and <code>camFOV</code> outputs preview the path and the view frame in Grasshopper, which helps when the camera does something unexpected.</p>
+<p>The <code>camPath</code> and <code>camFOV</code> outputs preview the path and the view frame in Grasshopper, which helps when the camera does something unexpected. To study one moment, you can temporarily feed the hub from a Number Slider (0 to 1) instead.</p>
 
-<h2>4. Export the frames</h2>
-<p>Add [[View Capture Driver]]. Set <code>totalDuration</code> to the length you want in seconds (try 6), <code>fps</code> to 30, and <code>path</code> to an empty folder such as <code>D:\anim\shot01</code>.</p>
-<p>Now move the hub over to the exporter: disconnect the slider from the hub and connect <code>master Time</code> instead. Click <b>Export Frames</b>. The component counts the frames as it saves them (6 s × 30 fps = 180 frames). Click again to stop early.</p>
+<h2>5. Swap in View Capture Driver to export</h2>
+<p>When the preview looks right, replace the preview source with the exporter. Add [[View Capture Driver]] and give it the same <code>totalDuration</code> as the counter, <code>fps</code> 30, and an empty folder such as <code>D:\anim\shot01</code> as <code>path</code>.</p>
+<ol class="steps">
+  <li>Disconnect Duration Counter from the hub. Only one source may feed it, otherwise the hub holds two values.</li>
+  <li>Connect <code>master Time</code> of View Capture Driver to the hub. Nothing else in the definition changes.</li>
+  <li>Click <b>Export Frames</b>. The component steps t from 0 to 1 and saves one frame each time: 6 s × 30 fps = 180 frames. Click again to stop early.</li>
+</ol>
 
-<pre class="diagram" data-caption="For the export, the hub reads master Time from View Capture Driver instead of the slider.">
+<pre class="diagram" data-caption="Export: the hub now reads master Time from View Capture Driver instead of Duration Counter.">
 names = panel "View 1\nView 2\nView 3"
 nv    = GetCameraFromNamedviews
 key   = AnimateKeyframes [cameras, t]
@@ -70,9 +79,11 @@ hub ~> key.t
 key.camera -> cam.camera
 </pre>
 
+<p>To go back to previewing, reconnect Duration Counter and disconnect <code>master Time</code>. Keeping both components on the canvas means you only ever move that one wire.</p>
+
 <div class="note"><p>Leave the Rhino window alone while it exports: the frames are captured from the viewport. Set <code>width</code> and <code>height</code> to render at a fixed size such as 1920 × 1080 whatever the size of the viewport.</p></div>
 
-<h2>5. Make the video</h2>
+<h2>6. Make the video</h2>
 <p>Add [[FramesToVideo]], connect the same folder to <code>folder</code>, and click <b>Make Video</b>. With the defaults you get <code>D:\anim\shot01\keyframe.mp4</code>: H.264 at 30 fps, which plays anywhere. The <code>videoPath</code> output gives the file once it is done.</p>
 
 <pre class="diagram">

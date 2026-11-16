@@ -157,10 +157,12 @@ for (const svg of document.querySelectorAll('svg.gh')) {
       update();
     };
     hit.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
       hit.setPointerCapture(e.pointerId);
+      g.classList.add('dragging');
       set(e.clientX);
       const move = (ev) => set(ev.clientX);
-      const up = () => { hit.removeEventListener('pointermove', move); hit.removeEventListener('pointerup', up); };
+      const up = () => { g.classList.remove('dragging'); hit.removeEventListener('pointermove', move); hit.removeEventListener('pointerup', up); };
       hit.addEventListener('pointermove', move);
       hit.addEventListener('pointerup', up);
     });

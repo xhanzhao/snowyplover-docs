@@ -86,7 +86,7 @@ function layout({ title, body, url, description }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title === SITE ? `${SITE}: animation tools for Grasshopper` : `${title} · ${SITE}`)}</title>
-<meta name="description" content="${esc(description || 'SnowyPlover is a Grasshopper plugin for architectural animation: cameras, timelines, effects and frame export.')}">
+<meta name="description" content="${esc(description || 'SnowyPlover is an animation plugin for Grasshopper: cameras, timelines, effects and frame export.')}">
 <link rel="icon" href="${root}assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${root}assets/style.css">
 <script>try{const t=localStorage.getItem('sp-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
@@ -106,7 +106,6 @@ function layout({ title, body, url, description }) {
 ${nav(url, root)}
 <main>
 ${body}
-<footer class="foot">Component data from SnowyPlover source <code>${esc(data.sourceCommit || '')}</code>, ${esc(data.generated)}.</footer>
 </main>
 </div>
 <script src="${root}assets/site.bundle.js"></script>
