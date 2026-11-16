@@ -1,0 +1,11 @@
+{
+  "name": "snowyplover-docs",
+  "private": true,
+  "type": "module",
+  "description": "Documentation site for the SnowyPlover Grasshopper plugin",
+  "scripts": {
+    "sync": "node tools/sync.mjs",
+    "build": "node tools/build.mjs --check",
+    "dev": "node tools/serve.mjs"
+  }
+}

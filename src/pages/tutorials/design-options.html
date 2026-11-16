@@ -1,0 +1,62 @@
+<!--
+title: Design options
+group: Tutorials
+order: 3
+description: Show design options one after another with Design Option Timeline and Apply Design Option, and blend between them with Join Clips.
+-->
+<h1>Design options</h1>
+<p class="lead">To compare schemes in one animation, put each option on its own Rhino layer. [[Design Option Timeline]] decides which option is visible at each t, and [[Apply Design Option]] switches the layers.</p>
+
+<h2>Set up the layers</h2>
+<p>There are two ways to tell the components which layers are the options:</p>
+<ul>
+  <li><b>One parent layer.</b> Its direct sub-layers become the options, sorted by name. Put <code>Options::A</code>, <code>Options::B</code>, <code>Options::C</code> under a layer <code>Options</code> and type <code>Options</code> into a Panel.</li>
+  <li><b>Two or more layers.</b> Each layer you list is one option, in the order you list them.</li>
+</ul>
+
+<h2>Wire it</h2>
+<p>Connect the <b>same</b> Panel to the <code>options</code> input of both components, so they agree on the list. Then wire <code>visibility</code> across and click Apply Design Option's button so it reads <b>Active</b>.</p>
+
+<pre class="diagram" data-caption="Design Option Timeline only computes; Apply Design Option is the one that changes the Rhino layers.">
+opts = panel "Options"
+t    = slider 0.4
+dot  = DesignOptionTimeline [options, t, durations, gap]
+app  = ApplyDesignOption
+
+opts -> dot.options
+opts -> app.options
+t ~> dot.t
+dot.visibility -> app.visibility
+</pre>
+
+<p>When you click the button to switch it off, Apply Design Option puts every layer back the way it was when you switched it on. Right-click it to turn that off, or to restore the layers right away.</p>
+
+<h2>Timing the options</h2>
+<ul>
+  <li><b>durations</b>: a relative weight per option. Empty means all options get the same time.</li>
+  <li><b>gap</b>: a blank pause between options, in the same unit as durations. 0 is a hard cut. Right-click for a gap at the start or end too.</li>
+  <li><b>sequence</b>: the order to play them in, by index. <code>0, 1, 0, 2</code> shows A, B, A again, then C.</li>
+  <li><b>domains</b>: exact t ranges, one per sequence item. Connect the <code>domains</code> output of an [[Event Timeline]] to place the options with the timeline bars instead. Durations and gap are then ignored.</li>
+</ul>
+
+<h2>Animating inside one option</h2>
+<p>The <code>progress</code> output has one value per option: 0 before its slot, 0 to 1 during it, and 1 after it. Use it to animate something that belongs to one option, for example arrows that draw themselves only while option B is on screen. Pick the option with List Item, or connect the whole list to an [[Event Timeline]] and choose with its <code>index</code> input.</p>
+
+<pre class="diagram">
+opts = panel "Options"
+t    = slider 0.55
+dot  = DesignOptionTimeline [options, t]
+ev   = EventTimeline [t, index] events="0-0.5, 0.5-1"
+idx  = slider 1 min=0 max=2 digits=0 label="option"
+arr  = AnimateArrow [curves, t]
+
+opts -> dot.options
+t ~> dot.t
+dot.progress ~> ev.t
+idx -> ev.index
+ev.event1 ~> arr.t
+</pre>
+<p>Right-click Design Option Timeline and choose <i>Progress: Null Outside Slot</i> to output nothing outside the slot. Components such as [[Animate Arrow]] then draw nothing at all while their option is hidden.</p>
+
+<h2>Blending between options</h2>
+<p>Design Option Timeline always cuts hard from one option to the next, because a layer is either on or off. For a crossfade, export the same camera move once per option into two folders and join them with a crossfade in [[Join Clips]]. See <a href="export.html#join">Join several shots</a>.</p>

@@ -1,0 +1,92 @@
+<!--
+title: Your first animation
+group: Getting started
+order: 3
+description: A step-by-step tutorial: fly the camera through three Named Views and export the result as an MP4.
+-->
+<h1>Your first animation</h1>
+<p class="lead">In about ten minutes you will fly the camera through three saved views of your model and export the flight as an MP4. You need a Rhino model, SnowyPlover and ffmpeg (see <a href="install.html">Install</a>).</p>
+
+<h2>1. Save the keyframes as Named Views</h2>
+<p>In Rhino, frame the model the way the animation should start and run <code>NamedView</code> › <b>Save</b>. Name it <code>View 1</code>. Move the camera, save <code>View 2</code>, then <code>View 3</code>. These are the keyframes the camera will fly through, in order.</p>
+<div class="note"><p>Keep the same viewport projection (perspective or parallel) for all three views. Mixing them makes the camera jump.</p></div>
+
+<h2>2. Read the views into Grasshopper</h2>
+<p>Add a Panel, type the three names on separate lines, and connect it to the <code>namedViews</code> input of [[Get Camera From Named Views]]. Its <code>camera</code> output now holds three cameras. If you change a Named View later, click <b>Update</b> on the component to read it again.</p>
+
+<pre class="diagram">
+names = panel "View 1\nView 2\nView 3"
+nv    = GetCameraFromNamedviews
+
+names -> nv.namedViews
+</pre>
+
+<h2>3. Interpolate between them</h2>
+<p>Add [[Animate Keyframes]] and wire the cameras into <code>cameras</code>. Add a Number Slider from 0 to 1 and a Number parameter named <b>t</b> as the <a href="concepts.html#hub">t hub</a>, then wire slider → hub → <code>t</code>.</p>
+<p>Add [[Apply Camera]], wire <code>camera</code> into it, and click its button so it reads <b>Active</b>. Now drag the slider: the Rhino viewport flies from View 1 to View 3.</p>
+
+<pre class="diagram" data-caption="Drag the slider in Grasshopper and the viewport follows. Click Apply Camera's button again to stop it from taking over the viewport.">
+names = panel "View 1\nView 2\nView 3"
+nv    = GetCameraFromNamedviews
+s     = slider 0.35 label="preview"
+hub   = param Number "t"
+key   = AnimateKeyframes [cameras, t, mode]
+cam   = ApplyCamera
+
+names -> nv.namedViews
+nv.camera -> key.cameras
+s ~> hub
+hub ~> key.t
+key.camera -> cam.camera
+</pre>
+
+<p>Two settings shape the flight:</p>
+<ul>
+  <li><b>mode</b>: right-click the component and pick <i>Smooth</i> for a curved path through the camera positions, or leave it <i>Linear</i> for straight segments. With Smooth, <code>curvature</code> (0 to 3) controls how wide the curves swing.</li>
+  <li><b>durations</b>: one weight per segment. With three views there are two segments; <code>1, 2</code> spends twice as long on the second one.</li>
+</ul>
+<p>The <code>camPath</code> and <code>camFOV</code> outputs preview the path and the view frame in Grasshopper, which helps when the camera does something unexpected.</p>
+
+<h2>4. Export the frames</h2>
+<p>Add [[View Capture Driver]]. Set <code>totalDuration</code> to the length you want in seconds (try 6), <code>fps</code> to 30, and <code>path</code> to an empty folder such as <code>D:\anim\shot01</code>.</p>
+<p>Now move the hub over to the exporter: disconnect the slider from the hub and connect <code>master Time</code> instead. Click <b>Export Frames</b>. The component counts the frames as it saves them (6 s × 30 fps = 180 frames). Click again to stop early.</p>
+
+<pre class="diagram" data-caption="For the export, the hub reads master Time from View Capture Driver instead of the slider.">
+names = panel "View 1\nView 2\nView 3"
+nv    = GetCameraFromNamedviews
+key   = AnimateKeyframes [cameras, t]
+cam   = ApplyCamera
+vcd   = ViewCaptureDriver [totalDuration, fps, path]
+hub   = param Number "t"
+dir   = panel "D:\anim\shot01"
+dur   = slider 6 min=1 max=20 label="seconds" digits=0
+
+names -> nv.namedViews
+nv.camera -> key.cameras
+dur -> vcd.totalDuration
+dir -> vcd.path
+vcd.masterTime ~> hub
+hub ~> key.t
+key.camera -> cam.camera
+</pre>
+
+<div class="note"><p>Leave the Rhino window alone while it exports: the frames are captured from the viewport. Set <code>width</code> and <code>height</code> to render at a fixed size such as 1920 × 1080 whatever the size of the viewport.</p></div>
+
+<h2>5. Make the video</h2>
+<p>Add [[FramesToVideo]], connect the same folder to <code>folder</code>, and click <b>Make Video</b>. With the defaults you get <code>D:\anim\shot01\keyframe.mp4</code>: H.264 at 30 fps, which plays anywhere. The <code>videoPath</code> output gives the file once it is done.</p>
+
+<pre class="diagram">
+dir = panel "D:\anim\shot01"
+fv  = FramesToVideo [folder, frameRate, format]
+
+dir -> fv.folder
+</pre>
+
+<p>If <code>frameRate</code> here does not match the <code>fps</code> you exported with, the video plays too fast or too slow. To make a GIF instead, use [[FramesToGifs]] the same way.</p>
+
+<h2>Next</h2>
+<ul>
+  <li>Give the camera and the model their own timing with <a href="tutorials/timing.html">Event Timeline</a>.</li>
+  <li>Add a <a href="tutorials/effects.html">section cut or growing curves</a>.</li>
+  <li>Try other <a href="tutorials/camera-moves.html">camera moves</a>: orbit, dolly, swing to plan.</li>
+</ul>

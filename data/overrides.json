@@ -1,0 +1,34 @@
+{
+  "BoxMappingEachNew": { "buttons": ["Bake"] },
+  "AssignMaterialsByLayers": { "buttons": ["Bake"] },
+  "RandomlyAssignObjectToLayers": { "buttons": ["Bake"] },
+  "MeshOutlinePreview": { "buttons": ["Live"] },
+  "DeconstructCamera": {
+    "description": "Split a Camera into its name, location, target, lens and up direction."
+  },
+  "AnimateObjectsMove": {
+    "name": "Animate Objects Move",
+    "description": "Move one object between two recorded positions. Click set A and set B to record where it starts and ends, then drive t from 0 to 1. Turn on apply to move the Rhino object itself instead of a preview; reset releases it."
+  },
+  "ColorPreview": {
+    "description": "Preview geometry in the viewport with a given color. Pair it with Color Opacity to fade geometry in or out."
+  },
+  "DeconstructClippingPlane": {
+    "description": "Read the plane and normal of a Rhino clipping plane from its id."
+  },
+  "JoinClips": {
+    "inputs": {
+      "transitions": {
+        "values": [
+          { "value": "0", "label": "Cut" }, { "value": "1", "label": "Crossfade" },
+          { "value": "2", "label": "Fade through black" }, { "value": "3", "label": "Fade through white" },
+          { "value": "4", "label": "Dissolve" }, { "value": "5", "label": "Wipe left" },
+          { "value": "6", "label": "Wipe right" }, { "value": "7", "label": "Wipe up" },
+          { "value": "8", "label": "Wipe down" }, { "value": "9", "label": "Slide left" },
+          { "value": "10", "label": "Slide right" }, { "value": "11", "label": "Circle open" },
+          { "value": "12", "label": "Circle close" }
+        ]
+      }
+    }
+  }
+}

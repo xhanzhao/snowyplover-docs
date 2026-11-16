@@ -1,0 +1,54 @@
+<!--
+title: Colour and display
+group: Tutorials
+order: 5
+description: Fade geometry in and out, draw gradients on curves and meshes, put text on the viewport, and draw live mesh outlines.
+-->
+<h1>Colour and display</h1>
+<p class="lead">The Display components draw in the viewport without baking anything, so whatever they show ends up in the exported frames.</p>
+
+<h2>Fading geometry in and out</h2>
+<p>[[Color Opacity]] turns t into a colour whose transparency changes. [[Color Preview]] draws geometry in that colour. Right-click the <code>mode</code> input to pick the effect: <i>PopUpAndVanish</i>, <i>FadeInAndFadeOut</i> or <i>BreathingEffect</i>.</p>
+<pre class="diagram">
+t   = slider 0.3 live
+ev  = EventTimeline [t] events="0.2-0.6"
+op  = ColorOpacity [t, red, green, blue, mode]
+g   = param Geometry "New wing"
+pv  = ColorPreview
+
+t ~> ev.t
+ev.event1 ~> op.t
+op.Color -> pv.color
+g -> pv.geometry
+</pre>
+<p>[[Random Color]] gives a list of random colours from a seed, handy for telling many objects apart.</p>
+
+<h2>Gradients</h2>
+<p>[[Gradient Color Curve]], [[Gradient Color Line]] and [[Gradient Color Mesh]] draw geometry with a gradient from <code>color1</code> to <code>color2</code>. The optional base curve, base line or direction line sets which way the gradient runs.</p>
+
+<h2>Text on the viewport</h2>
+<p>[[Display Text On Viewport]] draws text in screen space, at a pixel position set by <code>XMargin</code> and <code>YMargin</code>, so it stays put while the camera moves. Each item of the list is one line. Use it for titles, captions, or a running timestamp.</p>
+<pre class="diagram">
+title = panel "Option B: courtyard scheme"
+txt   = DisplayTextOnViewport
+
+title -> txt.Text
+</pre>
+
+<h2>Live outlines</h2>
+<p>[[Mesh Outline Preview]] draws the silhouette of meshes, breps, extrusions and SubDs as seen from the camera, like Rhino's <code>MeshOutline</code> command but recomputed on every frame.</p>
+<ul>
+  <li>To follow an animation, connect the same camera that goes into [[Apply Camera]]. Do this when exporting frames.</li>
+  <li>With no camera, it follows a Rhino viewport live; the <b>Live</b> button switches that on or off.</li>
+  <li>Right-click it and choose <i>Draw on top of the model</i> to keep the outlines visible through the geometry.</li>
+</ul>
+<pre class="diagram">
+key = AnimateKeyframes [cameras, t]
+cam = ApplyCamera [camera]
+g   = param Geometry "Massing"
+mo  = MeshOutlinePreview [geometry, camera, merge, color, thickness]
+
+key.camera -> cam.camera
+key.camera -> mo.camera
+g -> mo.geometry
+</pre>

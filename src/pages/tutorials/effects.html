@@ -1,0 +1,60 @@
+<!--
+title: Animating the model
+group: Tutorials
+order: 4
+description: Section cuts, clipping planes, growing curves and surfaces, arrows, moving and scaling objects, and objects travelling along curves.
+-->
+<h1>Animating the model</h1>
+<p class="lead">The Effect components animate geometry with t. They all follow the same pattern: geometry and t in, animated geometry out. Nothing is baked: the result shows as a Grasshopper preview, and the <a href="display.html">Display</a> components can colour it.</p>
+
+<h2>Section cuts</h2>
+<p>[[Animate Section Cut]] sweeps a cutting plane through the geometry as t goes from 0 to 1. The <code>plane</code> sets the direction of the cut (world XY by default); <code>flip</code> reverses it, and <code>KeepNegative</code> keeps the other side.</p>
+<pre class="diagram">
+g   = param Geometry "Building"
+t   = slider 0.5
+cut = AnimateSectionCut
+
+g -> cut.geometry
+t ~> cut.t
+</pre>
+<p>With <code>Union</code> off, every object is cut over its own height, so a short and a tall building finish at the same time. Turn it on to cut the whole group as one.</p>
+<p>To cut with a real Rhino clipping plane instead, so that the rendered view clips too, use [[Animate Clipping Plane]]: give it the clipping plane's id and a plane to move it to. [[Deconstruct Clipping Plane]] reads the current plane of a clipping plane.</p>
+
+<h2>Growing curves and surfaces</h2>
+<ul>
+  <li>[[Animate Curve]] draws curves along their length as t goes from 0 to 1. Right-click <code>mode</code> to grow from the start, or from the middle outwards.</li>
+  <li>[[Animate Surface]] grows surfaces along U (<code>tU</code>) and V (<code>tV</code>), from an edge or from the centre.</li>
+  <li>[[Animate Arrow]] draws an arrow along each curve, with solid, dotted or dashed lines. It is made for circulation diagrams and site flows.</li>
+  <li>[[Jitter Curve]] returns points along a curve, each moved a random distance. Draw a curve through them for a hand-drawn look.</li>
+</ul>
+<pre class="diagram" data-caption="Circulation arrows drawn over the first half of the animation.">
+t   = slider 0.35 live
+ev  = EventTimeline [t] events="0-0.5, 0.5-1"
+c   = param Curve "Paths"
+arr = AnimateArrow [curves, t, lineType, arrowLength]
+
+t ~> ev.t
+c -> arr.curves
+ev.event1 ~> arr.t
+</pre>
+
+<h2>Moving and scaling objects</h2>
+<ul>
+  <li>[[Scale Animated Geometry]] grows geometry from nothing to full size around a <code>Center</code> point.</li>
+  <li>[[Animate Objects Move]] moves an object between two positions you record. Move it to the start and click <code>set A</code>, move it to the end and click <code>set B</code>, then drive <code>t</code>. With <code>apply</code> on it moves the Rhino object itself; <code>reset</code> puts it back.</li>
+  <li>[[Animate Objects On Curves]] spreads objects such as cars or people along curves (each branch of the tree is one path). It outputs planes and an index per object, which you use to orient blocks. Turn on <code>animate</code> and drive <code>t</code> to make them travel.</li>
+</ul>
+<pre class="diagram" data-caption="Cars along roads: two car lengths, three times as many of the first kind.">
+roads = param Curve "Roads" access=tree
+len   = panel "4.5\n6.0"
+rat   = panel "3\n1"
+on    = toggle true label="animate"
+t     = slider 0.2
+cars  = AnimateObjectsOnCurves [curves, objectLengths, ratios, animate, t]
+
+roads -> cars.curves
+len -> cars.objectLengths
+rat -> cars.ratios
+on -> cars.animate
+t ~> cars.t
+</pre>

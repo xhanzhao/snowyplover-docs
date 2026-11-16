@@ -1,0 +1,30 @@
+<!--
+title: Preparing the scene
+group: Tutorials
+order: 7
+description: One-off setup tools: random layers with colours, materials from layer colours, box mapping, and helpers for sliders and domains.
+-->
+<h1>Preparing the scene</h1>
+<p class="lead">The Utility components, and Box Mapping Each, run once before you animate. They write to the Rhino document, so each has a <b>Bake</b> button, and nothing happens until you click it.</p>
+
+<h2>Layers and materials</h2>
+<ul>
+  <li>[[Randomly Assign Object To Layers]] bakes geometry onto a set of new layers, <code>Layer_01</code>, <code>Layer_02</code>…, each object on a random one and each layer with a random colour. If the layers exist already, they are updated. Use it to give a massing model some variety, or to split it into groups you can animate separately.</li>
+  <li>[[Assign Materials By Layers]] makes a render material from each layer's colour, assigns it to the layer, and sets the objects to use the material by layer. Use <code>skipLayersName</code> to leave out layers whose path contains a given word.</li>
+</ul>
+<pre class="diagram">
+g   = param Geometry "Massing"
+rl  = RandomlyAssignObjectToLayers [geometries, baseLayerName, layerCount]
+am  = AssignMaterialsByLayers
+
+g -> rl.geometries
+</pre>
+
+<h2>Texture mapping</h2>
+<p>[[Box Mapping Each]] gives every object its own box mapping, with optional random scale, offset and rotation, so a material such as brick or timber does not repeat identically on every block. Turn on <code>bake</code>, or click <b>Bake</b>, to apply it to the referenced Rhino objects.</p>
+
+<h2>Small helpers</h2>
+<ul>
+  <li>[[Read Slider Domain]] reads the minimum, maximum and current value of a Number Slider, for remapping.</li>
+  <li>[[Domain Partition]] divides a domain into equal parts and remaps a value into the part it falls in.</li>
+</ul>

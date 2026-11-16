@@ -1,0 +1,63 @@
+<!--
+title: Export frames and video
+nav: Export and video
+group: Tutorials
+order: 6
+description: Capture frames with View Capture Driver, encode them to MP4, MOV or GIF, and join several shots with transitions.
+-->
+<h1>Export frames and video</h1>
+<p class="lead">Exporting happens in two steps. [[View Capture Driver]] saves one image per frame into a folder. A video component then encodes that folder with ffmpeg.</p>
+
+<h2>Capture the frames</h2>
+<pre class="diagram">
+vcd = ViewCaptureDriver
+hub = param Number "t"
+dir = panel "D:\anim\shot01"
+
+dir -> vcd.path
+vcd.masterTime ~> hub
+</pre>
+<ul>
+  <li><b>totalDuration × fps</b> is the number of frames. 8 s at 30 fps is 240 frames.</li>
+  <li><b>path</b> is the output folder. Use a new folder per shot; the video components read every frame with the same base name in it.</li>
+  <li><b>viewName</b> picks the viewport; empty means the active one.</li>
+  <li><b>width</b> and <b>height</b> fix the image size; 0 uses the viewport size.</li>
+  <li><b>baseName</b> names the files: <code>keyframe_000000.jpg</code>, <code>keyframe_000001.jpg</code>…</li>
+  <li><b>transparent</b> saves PNGs with a transparent background, for compositing in After Effects or Premiere.</li>
+</ul>
+<p>Connect <code>master Time</code> to the <a href="../concepts.html#hub">t hub</a> and click <b>Export Frames</b>. The component shows its progress, and <code>done</code> turns true at the end. If you change one of its inputs while it runs, it stops, so that one folder never mixes two exports.</p>
+<div class="note"><p>Turn on [[Apply Camera]] and [[Apply Design Option]] before you export. While they are inactive, the viewport does not follow the animation, and every frame looks the same.</p></div>
+
+<h2>Make a video</h2>
+<p>[[FramesToVideo]] encodes the folder. Set <code>frameRate</code> to the fps you exported with.</p>
+<ul>
+  <li><b>MP4 (H.264)</b> plays everywhere. <code>quality</code> is the CRF value: 18 looks nearly lossless, 23 is ffmpeg's default, and higher numbers mean smaller files.</li>
+  <li><b>MOV (ProRes 4444)</b> keeps the transparency of PNG frames. The files are large.</li>
+</ul>
+<p>[[FramesToGifs]] makes a GIF instead. <code>gifFps</code> (15 by default) and <code>width</code> keep the file small; <code>loop</code> is 0 to loop forever.</p>
+<pre class="diagram">
+dir = panel "D:\anim\shot01"
+fv  = FramesToVideo [folder, frameRate, format, quality]
+fg  = FramesToGifs [folder, gifFps, width]
+
+dir -> fv.folder
+dir -> fg.folder
+</pre>
+<p>Both write next to the frames by default (<code>keyframe.mp4</code>, <code>keyframe.gif</code>); set <code>output</code> to write somewhere else. Click the button again while they run to cancel.</p>
+
+<h2 id="join">Join several shots</h2>
+<p>A presentation film is usually several shots: an aerial, an orbit, a section, an interior. Export each into its own folder, then list the folders in [[Join Clips]].</p>
+<pre class="diagram">
+dirs = panel "D:\anim\shot01\nD:\anim\shot02\nD:\anim\shot03"
+tr   = panel "1"
+jc   = JoinClips [folders, transitions, transitionSeconds, fadeIn, fadeOut]
+
+dirs -> jc.folders
+tr -> jc.transitions
+</pre>
+<ul>
+  <li><b>transitions</b>: one value for every join, or one per join. 0 is a cut, 1 a crossfade, 2 and 3 fade through black or white, 4 dissolves, 5 to 12 are wipes, slides and circles. Right-click the input to pick by name.</li>
+  <li><b>transitionSeconds</b>: how long each transition lasts. The clips overlap by this much, so the film gets shorter.</li>
+  <li><b>fadeIn</b> and <b>fadeOut</b> fade from and to black at the start and end.</li>
+</ul>
+<p>Clips of a different size are fitted into the size of the first clip with black bars. To crossfade between two design options, export the same camera move once with each option visible and join the two folders with a crossfade.</p>

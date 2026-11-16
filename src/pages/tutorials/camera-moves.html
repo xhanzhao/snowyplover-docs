@@ -1,0 +1,81 @@
+<!--
+title: Camera moves
+group: Tutorials
+order: 1
+description: Keyframed camera flights, orbits, dolly moves, dolly zoom and swings to plan or elevation, and how to chain them.
+-->
+<h1>Camera moves</h1>
+<p class="lead">There are two ways to move the camera. Keyframes fly through views you saved by hand. Procedural moves take one camera and move it along a path: around the target, toward it, up into plan.</p>
+
+<h2>Where a camera comes from</h2>
+<ul>
+  <li>[[Get Camera From Named Views]] reads Rhino Named Views by name. It gives one camera per name, in the order you list them.</li>
+  <li>[[Get Camera From Viewport]] reads the active viewport. Click <b>Update</b> after you move the view.</li>
+  <li>[[Construct Camera]] builds one from a location, a target, a lens length and an up vector.</li>
+</ul>
+<p>Every camera ends up in [[Apply Camera]], which writes it to the active viewport while its button reads <b>Active</b>. Right-click it to force a projection: perspective, two-point perspective or parallel.</p>
+
+<h2>Keyframes</h2>
+<p>[[Animate Keyframes]] interpolates a list of cameras with one t. This is the move from <a href="../first-animation.html">Your first animation</a>.</p>
+<pre class="diagram">
+nv  = GetCameraFromNamedviews [namedViews]
+t   = slider 0.5
+key = AnimateKeyframes [cameras, t, durations, mode, curvature]
+cam = ApplyCamera [camera]
+
+nv.camera -> key.cameras
+t ~> key.t
+key.camera -> cam.camera
+</pre>
+<ul>
+  <li><b>durations</b>: a relative weight per segment. Leave it empty for equal segments.</li>
+  <li><b>mode</b>: <i>Linear (0)</i> goes straight from one camera to the next; <i>Smooth (1)</i> curves through all camera positions. Right-click to set it.</li>
+  <li><b>curvature</b>: with Smooth, 0 gives straight segments, 1 a natural curve, up to 3 for broad arcs.</li>
+</ul>
+
+<h2>Procedural moves</h2>
+<p>Each of these takes a <code>camera</code> and a <code>t</code> and returns a moved camera. At <code>t = 0</code> they return the camera unchanged, so the move starts exactly where the input camera is.</p>
+<div class="table"><table>
+<thead><tr><th>Component</th><th>What it does</th><th>Extra inputs</th></tr></thead>
+<tbody>
+<tr><td>[[Orbit Camera]]</td><td>One full circle around the target.</td><td><code>radius</code>, <code>heightScaler</code></td></tr>
+<tr><td>[[Dolly Track Zoom In]]</td><td>Moves the camera toward the target, or toward <code>targetPoint</code>.</td><td><code>stopDistance</code></td></tr>
+<tr><td>[[Dolly Track Zoom Out]]</td><td>Moves the camera away from the target.</td><td><code>stopDistance</code></td></tr>
+<tr><td>[[Dolly Zoom]]</td><td>Moves the camera back while narrowing the lens, so the subject keeps its size and the background flattens (the "vertigo" shot).</td><td><code>swapDirection</code></td></tr>
+<tr><td>[[Dolly Track Along Curves]]</td><td>Slides the camera along one curve and the target along another.</td><td><code>Camera Curve</code>, <code>Target Curve</code>, <code>t1</code>, <code>t2</code></td></tr>
+<tr><td>[[Animate To Plan]]</td><td>Swings up over the target into a top view.</td><td><code>distance</code></td></tr>
+<tr><td>[[Animate To Elevation]]</td><td>Swings down to the target's height for an elevation view.</td><td><code>distance</code></td></tr>
+</tbody></table></div>
+
+<pre class="diagram" data-caption="An orbit around the current view.">
+src = GetCameraFromViewport
+t   = slider 0.3 live
+orb = OrbitCamera
+cam = ApplyCamera [camera]
+
+src.camera -> orb.camera
+t ~> orb.t
+orb.camera -> cam.camera
+</pre>
+
+<h2>Chaining moves</h2>
+<p>Because every move starts from the camera it is given, you can chain them: feed the output of one into the next, and give each its own event from an [[Event Timeline]]. Here the camera flies through the keyframes over the first 70% of the animation, then swings up into plan.</p>
+
+<pre class="diagram" data-caption="Drag t: Animate To Plan stays at 0 (no change) until the keyframe flight is done.">
+t   = slider 0.5 live
+ev  = EventTimeline [t] events="fly: 0-0.7, plan: 0.7-1"
+nv  = GetCameraFromNamedviews [namedViews]
+key = AnimateKeyframes [cameras, t]
+pl  = AnimateToPlan
+cam = ApplyCamera [camera]
+
+t ~> ev.t
+nv.camera -> key.cameras
+ev.event1 ~> key.t
+key.camera -> pl.camera
+ev.event2 ~> pl.t
+pl.camera -> cam.camera
+</pre>
+
+<h2>Parallel views</h2>
+<p>[[Animate To Plan]] and [[Animate To Elevation]] work in perspective and parallel viewports; [[Dolly Zoom]] needs a perspective view because it changes the lens. For parallel views, [[Set Frustum]] zooms the active viewport in or out around a target point.</p>

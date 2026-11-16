@@ -1,0 +1,79 @@
+<!--
+title: Core concepts
+group: Getting started
+order: 2
+description: The ideas behind SnowyPlover: the time value t, the t hub, the Camera parameter, buttons on components, and how frame export works.
+-->
+<h1>Core concepts</h1>
+<p class="lead">Five ideas explain almost every SnowyPlover definition.</p>
+
+<h2 id="t">1. Time is a number from 0 to 1</h2>
+<p>SnowyPlover never deals in seconds or frames while you build the animation. Every animated component has a <code>t</code> input that expects a number from 0 (the start) to 1 (the end). A camera move at <code>t = 0.5</code> is halfway along its path; a section cut at <code>t = 0.5</code> has cut halfway through the building.</p>
+<p>Seconds only matter at the very end, when [[View Capture Driver]] turns <code>totalDuration × fps</code> into a number of frames.</p>
+
+<h2 id="hub">2. Feed every t from one place</h2>
+<p>Put a single Number parameter on the canvas, name it <b>t</b>, and wire every <code>t</code> input from it. While you work, feed it from a Number Slider (0 to 1) or from [[Duration Counter]] to play the animation in real time. When you export, feed it from the <code>master Time</code> output of [[View Capture Driver]] instead. Only that one wire changes between previewing and exporting.</p>
+
+<pre class="diagram" data-caption="The t hub. Use the slider or Duration Counter while you build, and switch the hub to master Time to export. Connect only one source at a time.">
+s   = slider 0.25 label="preview"
+dc  = DurationCounter [totalDuration]
+vcd = ViewCaptureDriver [path]
+hub = param Number "t"
+a   = OrbitCamera [used]
+b   = AnimateSectionCut [used]
+
+s ~> hub
+dc.t_Counter ~> hub
+vcd.masterTime ~> hub
+hub ~> a.t
+hub ~> b.t
+</pre>
+
+<p>To give different parts of the animation their own timing, put an [[Event Timeline]] between the hub and the components. It splits one t into several events, each with its own 0 to 1. See <a href="tutorials/timing.html">Timing with Event Timeline</a>.</p>
+
+<h2 id="camera">3. Cameras travel as one value</h2>
+<p>Camera components pass around a <b>Camera</b>: one value that holds a name, location, target, lens length and up direction. Camera moves take a camera and a t, and give back a camera. You can chain them, and only [[Apply Camera]] actually changes the Rhino viewport.</p>
+
+<pre class="diagram" data-caption="Read a starting camera, move it, apply it.">
+src = GetCameraFromViewport
+t   = slider 0.4
+orb = OrbitCamera
+cam = ApplyCamera
+
+src.camera -> orb.camera
+t ~> orb.t
+orb.camera -> cam.camera
+</pre>
+
+<p>To make a camera from points, use [[Construct Camera]]. To read its parts back out, use [[Deconstruct Camera]].</p>
+
+<h2 id="buttons">4. Buttons switch things on</h2>
+<p>Some components have a button under them. The button replaces a Boolean Toggle and remembers its state in the file.</p>
+<ul>
+  <li><b>Inactive / Active</b> on [[Apply Camera]] and [[Apply Design Option]]. Nothing in the Rhino document changes until you click it to <i>Active</i>. Apply Design Option restores the original layer visibility when you switch it off again.</li>
+  <li><b>Update</b> on [[Get Camera From Viewport]] and [[Get Camera From Named Views]]. Click it after you change the view or the Named Views, because Grasshopper cannot see those changes by itself.</li>
+  <li><b>Play</b> and <b>Reset</b> on [[Duration Counter]].</li>
+  <li><b>Export Frames</b> on [[View Capture Driver]], and <b>Make Video</b>, <b>Make GIF</b> and <b>Join Clips</b> on the video components. Click again while they run to stop.</li>
+  <li><b>Live</b> on [[Mesh Outline Preview]], and <b>Bake</b> on the Utility components that write to the Rhino document.</li>
+</ul>
+<p>Many components also have options in their right-click menu, for example the easing of [[Event Timeline]] or the projection of [[Apply Camera]]. The component descriptions on the reference pages mention them.</p>
+
+<h2 id="export">5. Export goes frame by frame</h2>
+<p>When you click <b>Export Frames</b>, [[View Capture Driver]] runs this loop for every frame <code>i</code> from 0 to <code>n − 1</code>:</p>
+<ol class="steps">
+  <li>set <code>master Time</code> to <code>i / (n − 1)</code>,</li>
+  <li>let the whole definition recompute and the viewport redraw,</li>
+  <li>save the viewport as <code>{baseName}_000000.jpg</code>, <code>_000001.jpg</code> … (PNG when <code>transparent</code> is on),</li>
+  <li>move on to the next frame.</li>
+</ol>
+<p>Because it waits for each frame, a slow definition only makes the export slower, never choppy. The video components then read that folder. See <a href="tutorials/export.html">Export frames and video</a>.</p>
+
+<h2 id="wires">Reading the diagrams</h2>
+<p>The diagrams on this site are drawn like the Grasshopper canvas, in a simpler style.</p>
+<ul>
+  <li>Inputs are on the left of a component and outputs on the right. Grey input names are optional.</li>
+  <li>A thin wire carries one value, a <b>double</b> wire carries a list, and a <b>dashed</b> wire carries a data tree, as in Grasshopper.</li>
+  <li><b style="color:var(--accent)">Orange</b> wires carry t.</li>
+  <li>Hover over a port to see its type, default and description, and click a component's name to open its reference page.</li>
+  <li>Diagrams usually show only the ports that are wired. The reference page of each component lists all of them.</li>
+</ul>

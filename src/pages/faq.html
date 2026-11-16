@@ -1,0 +1,34 @@
+<!--
+title: Troubleshooting
+group: Help
+order: 1
+description: Fixes for the most common SnowyPlover problems: the viewport does not move, ffmpeg not found, frames all look the same.
+-->
+<h1>Troubleshooting</h1>
+
+<h3>The viewport does not move when I drag the slider</h3>
+<p>Click the button on [[Apply Camera]] so it reads <b>Active</b>. It ignores cameras while it is inactive, so that it never takes over the viewport by surprise.</p>
+
+<h3>Get Camera From Named Views outputs nothing</h3>
+<p>Check that the names in the Panel match the Named Views exactly, one per line, and that <code>activate</code> is true. If you edited the Named Views after placing the component, click <b>Update</b>.</p>
+
+<h3>The camera jumps between two keyframes</h3>
+<p>The Named Views probably mix projections, for example one parallel and one perspective. Save them all with the same projection, or right-click [[Apply Camera]] and force one.</p>
+
+<h3>Every exported frame looks the same</h3>
+<p>The <a href="concepts.html#hub">t hub</a> is still fed by the slider instead of the <code>master Time</code> output of [[View Capture Driver]], or [[Apply Camera]] is inactive.</p>
+
+<h3>The export stopped by itself</h3>
+<p>[[View Capture Driver]] stops when one of its inputs changes during the export, so one folder never mixes two exports. Click <b>Export Frames</b> again. It also stops with an error when <code>path</code> is empty.</p>
+
+<h3>"ffmpeg not found"</h3>
+<p>Install it with <code>winget install Gyan.FFmpeg</code>, or put the path to <code>ffmpeg.exe</code> in the <code>ffmpegPath</code> input. See <a href="install.html#ffmpeg">Install</a>.</p>
+
+<h3>The video plays too fast or too slow</h3>
+<p>Set <code>frameRate</code> on the video component to the same value as <code>fps</code> on [[View Capture Driver]].</p>
+
+<h3>My layers stayed hidden after the animation</h3>
+<p>Switch [[Apply Design Option]] off with its button: it restores the layer visibility it recorded when you switched it on. If that option was turned off in its right-click menu, use <i>Restore Layers Now</i> from the same menu.</p>
+
+<h3>The preview stutters</h3>
+<p>[[Duration Counter]] plays in real time and skips values when the definition cannot keep up. The export is not affected, because it waits for every frame. To preview faster, preview a lighter version of the model, or scrub with a slider.</p>

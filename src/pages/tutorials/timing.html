@@ -1,0 +1,77 @@
+<!--
+title: Timing with Event Timeline
+nav: Timing
+group: Tutorials
+order: 2
+description: Split one t into overlapping, eased events with Event Timeline, nest timelines, and preview in real time with Duration Counter.
+-->
+<h1>Timing with Event Timeline</h1>
+<p class="lead">One t runs the whole animation, but the camera, the section cut and the arrows should not all start and stop together. [[Event Timeline]] splits t into events, each with its own 0 to 1.</p>
+
+<h2>Events</h2>
+<p>An event is a range of the input t, such as 0.2 to 0.6. Before the range its output is 0, inside it rises from 0 to 1, and after it it stays at 1. Drag the slider:</p>
+
+<pre class="diagram" data-caption="Three events. The second starts before the first has finished, so the two overlap.">
+t  = slider 0.45 live
+ev = EventTimeline [t] events="0-0.4, 0.3-0.7, 0.6-1"
+a  = param Number "camera"
+b  = param Number "section"
+c  = param Number "arrows"
+
+t ~> ev.t
+ev.event1 ~> a
+ev.event2 ~> b
+ev.event3 ~> c
+</pre>
+
+<p>On the canvas, Event Timeline draws its events as bars. Drag a bar to move it, drag its ends to resize it, and use <b>+</b> and <b>−</b> to add or remove events; each event gets its own output, <code>event 1</code>, <code>event 2</code>… Hold <kbd>Shift</kbd> while dragging to turn off snapping.</p>
+
+<h2>Easing</h2>
+<p>Right-click the component to pick the easing for all its events: <i>Linear</i>, <i>Ease In</i>, <i>Ease Out</i> or <i>Ease In-Out</i>. Ease In-Out is the one to use for camera moves, because the camera starts and stops gently. The slider below drives the same events with Ease In-Out; compare the numbers with the diagram above.</p>
+
+<pre class="diagram">
+t  = slider 0.45 live
+ev = EventTimeline [t] events="0-0.4, 0.3-0.7, 0.6-1" ease=inout
+a  = param Number "camera"
+b  = param Number "section"
+c  = param Number "arrows"
+
+t ~> ev.t
+ev.event1 ~> a
+ev.event2 ~> b
+ev.event3 ~> c
+</pre>
+
+<p>The right-click menu has two more settings:</p>
+<ul>
+  <li><b>Outside Event</b>: <i>Hold</i> outputs 0 before the event and 1 after it. <i>Null Outside</i> outputs nothing, which hides geometry that should only appear during its event.</li>
+  <li><b>Snap</b>: snaps the bars to 0.1 s, 0.5 s, 1 s or one frame while you drag. It needs <code>duration</code> (the animation length in seconds), and <code>fps</code> for frame snapping. Both are only used to display and snap the bars; they do not change the outputs.</li>
+</ul>
+
+<h2>Nesting</h2>
+<p>Any event output is itself a 0 to 1, so it can feed another Event Timeline. Use this to split one part of the animation further, for example three arrows that appear one after another inside the "arrows" event. The <code>eventSeconds</code> output gives the length of each event in seconds, which you can wire into the nested timeline's <code>duration</code> so its snapping stays in seconds.</p>
+
+<pre class="diagram">
+t   = slider 0.8 live
+ev  = EventTimeline [t] events="0-0.6, 0.6-1"
+sub = EventTimeline [t] events="0-0.5, 0.25-0.75, 0.5-1"
+
+t ~> ev.t
+ev.event2 ~> sub.t
+</pre>
+
+<h2>Preview in real time</h2>
+<p>A slider shows one moment at a time. To watch the animation play at its real speed, feed the <a href="../concepts.html#hub">t hub</a> from [[Duration Counter]]. Set <code>totalDuration</code> to the same length as [[View Capture Driver]], click <b>Play</b>, and the counter runs from 0 to 1 in that many seconds. <b>Pause</b> holds it, <b>Reset</b> goes back to the start.</p>
+
+<pre class="diagram">
+len = slider 8 min=1 max=30 digits=0 label="seconds"
+dc  = DurationCounter [totalDuration, fps]
+hub = param Number "t"
+ev  = EventTimeline [t, duration] events="0-0.6, 0.5-1"
+
+len -> dc.totalDuration
+len -> ev.duration
+dc.t_Counter ~> hub
+hub ~> ev.t
+</pre>
+<div class="note"><p>A heavy definition may not keep up with 30 fps. The counter then skips values, so the preview looks choppier than the export will be. The exported frames are always complete, because [[View Capture Driver]] waits for every frame.</p></div>

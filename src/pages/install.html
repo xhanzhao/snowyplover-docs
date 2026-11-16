@@ -1,0 +1,32 @@
+<!--
+title: Install
+group: Getting started
+order: 1
+description: Install the SnowyPlover Grasshopper plugin and ffmpeg.
+-->
+<h1>Install</h1>
+<p class="lead">SnowyPlover runs in Grasshopper for Rhino 7 and Rhino 8. The video components also need ffmpeg, a free command-line encoder.</p>
+
+<h2>SnowyPlover</h2>
+<ol class="steps">
+  <li>Get <code>SnowyPlover.gha</code>.</li>
+  <li>In Grasshopper, choose <b>File › Special Folders › Components Folder</b> and copy <code>SnowyPlover.gha</code> into the folder that opens.</li>
+  <li>On Windows, right-click the file, choose <b>Properties</b>, and tick <b>Unblock</b> if you see it. Windows blocks files that came from the internet, and Grasshopper will not load a blocked plugin.</li>
+  <li>Restart Rhino and open Grasshopper. A <b>Snowyplover</b> tab appears, with sections from <i>Camera</i> to <i>Utility</i>.</li>
+</ol>
+
+<h2>ffmpeg</h2>
+<p>[[FramesToVideo]], [[FramesToGifs]] and [[Join Clips]] call ffmpeg to encode the frames. Everything else works without it.</p>
+<p>The quickest way to install it on Windows is from a terminal:</p>
+<pre><code>winget install Gyan.FFmpeg</code></pre>
+<p>The components look for ffmpeg in this order:</p>
+<ol>
+  <li>the <code>ffmpegPath</code> input, if you set it (the path to <code>ffmpeg.exe</code> or to its folder),</li>
+  <li>next to <code>SnowyPlover.gha</code>,</li>
+  <li>on your <code>PATH</code>,</li>
+  <li>in the folders where winget installs programs.</li>
+</ol>
+<p>If a video component says it cannot find ffmpeg, run <code>where.exe ffmpeg</code> in a terminal and paste the path it prints into <code>ffmpegPath</code>. [[Join Clips]] needs ffmpeg 4.3 or newer for its transitions.</p>
+
+<h2>Check that it works</h2>
+<p>Place [[Get Camera From Viewport]] on the canvas, connect a Boolean Toggle set to <code>True</code> to its <code>activate</code> input, and click <b>Update</b>. Its <code>camera</code> output should show the camera of the active Rhino viewport. Next, read <a href="concepts.html">Core concepts</a>.</p>

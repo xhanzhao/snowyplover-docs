@@ -1,0 +1,55 @@
+<!--
+title: SnowyPlover
+nav: Overview
+group: Getting started
+order: 0
+description: SnowyPlover is a Grasshopper plugin for architectural animation: camera moves, timelines, effects and frame export to GIF or video.
+-->
+<section class="hero">
+<h1>Animate architecture in Grasshopper</h1>
+<p class="lead">SnowyPlover is a Grasshopper plugin for making architectural animations in Rhino. You move the camera, time the events, animate the model and export the frames to a video, all from one definition.</p>
+<div class="actions">
+  <a class="btn-main" href="first-animation.html">Make your first animation</a>
+  <a class="btn-plain" href="reference/index.html">Browse components</a>
+</div>
+</section>
+
+<h2>One number drives everything</h2>
+<p>Every SnowyPlover definition is built around a single number, <b>t</b>, that runs from 0 to 1 over the length of the animation. Each component turns t into something you can see: a camera position, a section plane, a colour. Drag the slider below to see how <a href="tutorials/timing.html">Event Timeline</a> splits one t into two events, one for the camera and one for the section cut.</p>
+
+<pre class="diagram" data-caption="Drag t. The camera move runs over the first 60% of the animation and the section cut over the last half, overlapping in the middle.">
+t   = slider 0.30 live
+ev  = EventTimeline [t] events="camera: 0-0.6, section: 0.5-1"
+nv  = GetCameraFromNamedviews [used]
+key = AnimateKeyframes [used]
+cam = ApplyCamera [used]
+g   = param Geometry "Building"
+cut = AnimateSectionCut [used]
+
+t ~> ev.t
+nv.camera -> key.cameras
+ev.event1 ~> key.t
+key.camera -> cam.camera
+g -> cut.geometry
+ev.event2 ~> cut.t
+</pre>
+<p class="live-hint">The orange wires carry t. The numbers on them change as you drag.</p>
+
+<p>When the animation looks right, <a href="tutorials/export.html">View Capture Driver</a> takes over t. It steps t from 0 to 1 one frame at a time and saves each frame from the Rhino viewport, and <a href="reference/frames-to-video.html">FramesToVideo</a> turns the frames into an MP4.</p>
+
+<h2>What is in the plugin</h2>
+<ul class="grid3">
+  <li><a href="tutorials/camera-moves.html"><b>Camera</b><span>Keyframes from Named Views, orbits, dolly moves, dolly zoom, swings to plan and elevation.</span></a></li>
+  <li><a href="tutorials/timing.html"><b>Timeline</b><span>Split t into eased events, preview in real time, and step through design options.</span></a></li>
+  <li><a href="tutorials/effects.html"><b>Effect</b><span>Section cuts, growing curves and surfaces, arrows, moving and scaling objects.</span></a></li>
+  <li><a href="tutorials/display.html"><b>Display</b><span>Fading colours, gradients, text on the viewport and live mesh outlines.</span></a></li>
+  <li><a href="tutorials/export.html"><b>Video</b><span>Save frames, then make an MP4, MOV or GIF, or join several shots with transitions.</span></a></li>
+  <li><a href="tutorials/scene-prep.html"><b>Utility</b><span>Prepare the scene once: random layers, materials from layer colours, box mapping.</span></a></li>
+</ul>
+
+<h2>Where to start</h2>
+<ol class="steps">
+  <li><a href="install.html">Install</a> SnowyPlover and ffmpeg.</li>
+  <li>Read <a href="concepts.html">Core concepts</a>. It takes five minutes and explains t, the Camera parameter and the buttons on the components.</li>
+  <li>Follow <a href="first-animation.html">Your first animation</a> from Named Views to an MP4.</li>
+</ol>

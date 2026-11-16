@@ -1,0 +1,3479 @@
+{
+  "generated": "2026-11-16",
+  "sourceCommit": "5fcf8cc",
+  "sections": [
+    {
+      "id": "00 Param",
+      "title": "Param"
+    },
+    {
+      "id": "01 Camera",
+      "title": "Camera"
+    },
+    {
+      "id": "02 Timeline",
+      "title": "Timeline"
+    },
+    {
+      "id": "03 Effect",
+      "title": "Effect"
+    },
+    {
+      "id": "04 Display",
+      "title": "Display"
+    },
+    {
+      "id": "05 Video",
+      "title": "Video"
+    },
+    {
+      "id": "06 Utility",
+      "title": "Utility"
+    }
+  ],
+  "components": [
+    {
+      "id": "Param_Camera",
+      "kind": "param",
+      "name": "Camera",
+      "nickname": "Camera",
+      "description": "Camera object carrying name, location, target, lens and up.",
+      "category": "Snowyplover",
+      "section": "00 Param",
+      "guid": "b6c6c43a-4e0d-4b2e-9f42-8c7c5aef3d21",
+      "exposure": "primary",
+      "icon": "camera.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [],
+      "outputs": [],
+      "slug": "camera"
+    },
+    {
+      "id": "ApplyCamera",
+      "kind": "component",
+      "name": "Apply Camera",
+      "nickname": "ApplyCamera",
+      "description": "Apply a Camera object to the active Rhino viewport. Click the button to switch applying on or off; right-click the component (or the mode input) to pick the projection.",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "apply-camera.png",
+      "buttons": [
+        "Inactive"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "mode",
+          "nickname": "M",
+          "description": "Optional. Projection mode: -1=use camera projection (perspective if absent), 0=Perspective, 1=Two-Point, 2=Parallel. Leave unconnected and right-click to pick it instead.",
+          "type": "Integer",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "outputs": [],
+      "slug": "apply-camera"
+    },
+    {
+      "id": "ConstructCamera",
+      "kind": "component",
+      "name": "Construct Camera",
+      "nickname": "Camera",
+      "description": "Create a camera by input parameters",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "construct-camera.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "name",
+          "nickname": "N",
+          "description": "Camera Name",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "nickname": "L",
+          "description": "Camera Location",
+          "type": "Point",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "target",
+          "nickname": "T",
+          "description": "Camera Target",
+          "type": "Point",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "lens",
+          "nickname": "L",
+          "description": "Camera Lens",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "50.0"
+        },
+        {
+          "name": "up",
+          "nickname": "D",
+          "description": "Camera Up Direction",
+          "type": "Vector",
+          "access": "item",
+          "optional": true,
+          "default": "{0, 0, 1}"
+        },
+        {
+          "name": "activate",
+          "nickname": "On",
+          "description": "Toggle",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "true"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "construct-camera"
+    },
+    {
+      "id": "DeconstructCamera",
+      "kind": "component",
+      "name": "Deconstruct Camera",
+      "nickname": "DeCam",
+      "description": "Split a Camera into its name, location, target, lens and up direction.",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "deconstruct-camera.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "name",
+          "nickname": "N",
+          "description": "Camera Name",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "nickname": "L",
+          "description": "Camera Location",
+          "type": "Point",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "target",
+          "nickname": "T",
+          "description": "Camera Target",
+          "type": "Point",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "lens",
+          "nickname": "L",
+          "description": "Camera Lens",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "up",
+          "nickname": "D",
+          "description": "Camera Up Direction",
+          "type": "Vector",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "deconstruct-camera"
+    },
+    {
+      "id": "GetCameraFromNamedviews",
+      "kind": "component",
+      "name": "Get Camera From Named Views",
+      "nickname": "NameViews",
+      "description": "Reads Rhino Named Views and outputs multiple cameras for animation. Click Update to read the Named Views again after they have changed.",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "get-camera-from-named-views.png",
+      "buttons": [
+        "Update"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "namedViews",
+          "nickname": "N",
+          "description": "List of Rhino Named View names to sample as camera keyframes",
+          "type": "Text",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "activate",
+          "nickname": "On",
+          "description": "Toggle to run",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "true"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera keyframes corresponding to input Named Views",
+          "type": "Camera",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "get-camera-from-named-views"
+    },
+    {
+      "id": "GetCameraFromViewport",
+      "kind": "component",
+      "name": "Get Camera From Viewport",
+      "nickname": "GetCameraFromViewport",
+      "description": "Get Camera Parameter From Current Viewport. Click Update to read the viewport again after it has changed.",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "get-camera-from-viewport.png",
+      "buttons": [
+        "Update"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "activate",
+          "nickname": "On",
+          "description": "Toggle to run",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "get-camera-from-viewport"
+    },
+    {
+      "id": "AnimateKeyframes",
+      "kind": "component",
+      "name": "Animate Keyframes",
+      "nickname": "AnimateKeyframes",
+      "description": "Interpolate camera keyframes with per-segment durations",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": "ad110112-8ada-4c18-928b-f06869349754",
+      "exposure": "secondary",
+      "icon": "animate-keyframes.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "cameras",
+          "nickname": "C",
+          "description": "Camera keyframes (ordered list)",
+          "type": "Camera",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Master slider [0..1] for the whole storyboard",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "durations",
+          "nickname": "D",
+          "description": "Relative duration weights, one per segment. Missing or nonpositive weights use 1.",
+          "type": "Number",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "mode",
+          "nickname": "M",
+          "description": "0=Linear, 1=Smooth through keyframes. Right-click to set the default.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true
+        },
+        {
+          "name": "curvature",
+          "nickname": "K",
+          "description": "Global Smooth path shape. 0=straight segments, 1=natural curve, higher values=broader arcs. The curve passes through camera locations. Connect one number; only the first value of a list is used. Range [0, 3].",
+          "type": "Number",
+          "access": "list",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Output camera at time t",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "segmentIndex",
+          "nickname": "I",
+          "description": "Current segment index (Fi -> Fi+1)",
+          "type": "Integer",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "localT",
+          "nickname": "t",
+          "description": "Local time within the current segment [0..1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "camPath",
+          "nickname": "P",
+          "description": "Camera location path",
+          "type": "Curve",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "camPlane",
+          "nickname": "P",
+          "description": "Camera plane at t (X=view direction, Z=up)",
+          "type": "Plane",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "camFOV",
+          "nickname": "F",
+          "description": "Camera view frame at target depth",
+          "type": "Line",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "animate-keyframes"
+    },
+    {
+      "id": "AnimateToElevation",
+      "kind": "component",
+      "name": "Animate To Elevation",
+      "nickname": "AnimateToElevation",
+      "description": "Swing the camera around its target down to the target's height (elevation view), keeping its distance to the target unless distance is given. World Z ends straight up.",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "animate-to-elevation.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "distance",
+          "nickname": "D",
+          "description": "Distance from the target at the end, in model units. Leave empty to keep the camera's current distance",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "animate-to-elevation"
+    },
+    {
+      "id": "AnimateToPlan",
+      "kind": "component",
+      "name": "Animate To Plan",
+      "nickname": "AnimateToPlan",
+      "description": "Swing the camera up around its target into a top (plan) view, keeping its distance to the target unless distance is given.",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "animate-to-plan.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "distance",
+          "nickname": "D",
+          "description": "Distance from the target at the end, in model units. Leave empty to keep the camera's current distance",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "animate-to-plan"
+    },
+    {
+      "id": "DollyTrackAlongCurves",
+      "kind": "component",
+      "name": "Dolly Track Along Curves",
+      "nickname": "DollyTrackAlongCurves",
+      "description": "Moves the camera and target along curves,Use Toggle on1 and on2 to enable the camera and target separately or activate both to control them simultaneously",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "dolly-track-along-curves.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "Camera Curve",
+          "nickname": "C1",
+          "description": "Curve for camera path",
+          "type": "Curve",
+          "access": "item",
+          "optional": true
+        },
+        {
+          "name": "Target Curve",
+          "nickname": "C2",
+          "description": "Curve for target path",
+          "type": "Curve",
+          "access": "item",
+          "optional": true
+        },
+        {
+          "name": "t1",
+          "nickname": "t1",
+          "description": "Normalized time parameter in [0,1] for camera curve",
+          "type": "Number",
+          "access": "item",
+          "optional": true
+        },
+        {
+          "name": "t2",
+          "nickname": "t2",
+          "description": "Normalized time parameter in [0,1] for target curve",
+          "type": "Number",
+          "access": "item",
+          "optional": true
+        },
+        {
+          "name": "activateC1",
+          "nickname": "On1",
+          "description": "Toggle to run, when set to True,Orient input camera location on C1",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "true"
+        },
+        {
+          "name": "activateC2",
+          "nickname": "On2",
+          "description": "Toggle to run, when set to True,Orient input target location on C2",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "true"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "dolly-track-along-curves"
+    },
+    {
+      "id": "DollyTrackZoomIn",
+      "kind": "component",
+      "name": "Dolly Track Zoom In",
+      "nickname": "DollyTrackZoomIn",
+      "description": "Moving camera along the track toward a provided target, if not provide, the current target point from the camera info will be used.",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "dolly-track-zoom-in.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "stopDistance",
+          "nickname": "D",
+          "description": "Minimim distance to target",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "targetPoint",
+          "nickname": "Pt",
+          "description": "Given target point to zoom in",
+          "type": "Point",
+          "access": "item",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "dolly-track-zoom-in"
+    },
+    {
+      "id": "DollyTrackZoomOut",
+      "kind": "component",
+      "name": "Dolly Track Zoom Out",
+      "nickname": "DollyTrackZoomOut",
+      "description": "Moving camera along the track outward a provided target in a given range,",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "dolly-track-zoom-out.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "stopDistance",
+          "nickname": "D",
+          "description": "Maximum zoom-out distance, if not provided, the default is set to twice the  Distance to the target",
+          "type": "Number",
+          "access": "item",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "dolly-track-zoom-out"
+    },
+    {
+      "id": "DollyZoom",
+      "kind": "component",
+      "name": "Dolly Zoom",
+      "nickname": "DollyZoom",
+      "description": "Simulate dolly-zoom style flattening. Move camera along view ray and scale lens to preserve framing.",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "dolly-zoom.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "swapDirection",
+          "nickname": "D",
+          "description": "Swap the camera motion direction,if False : Zoom Out, if True : Zoom In",
+          "type": "Boolean",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "dolly-zoom"
+    },
+    {
+      "id": "OrbitCamera",
+      "kind": "component",
+      "name": "Orbit Camera",
+      "nickname": "OrbitCam",
+      "description": "Set Camera on a circular path to create a orbit shot",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "orbit-camera.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "radius",
+          "nickname": "R",
+          "description": "Customed path radius, if no input, using the current camera parameter ",
+          "type": "Number",
+          "access": "item",
+          "optional": true
+        },
+        {
+          "name": "heightScaler",
+          "nickname": "H",
+          "description": "Customed camera heigth, if no input, using the current camera location",
+          "type": "Number",
+          "access": "item",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Camera object containing [Name, Location, Target, Lens, Up].",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "orbit-camera"
+    },
+    {
+      "id": "SetFrustum",
+      "kind": "component",
+      "name": "Set Frustum",
+      "nickname": "SetFrustum",
+      "description": "SetFrustum for parallel projection",
+      "category": "Snowyplover",
+      "section": "01 Camera",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "set-frustum.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "activate",
+          "nickname": "On",
+          "description": "Run the operation",
+          "type": "Boolean",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "zoom",
+          "nickname": "Z",
+          "description": "Values are applied incrementally. 1.0 = no change. <1.0 = Zoom In. >1.0 = Zoom Out",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "targetPoint",
+          "nickname": "Pt",
+          "description": "Customed Target Point, if the target point is not provided, use the viewport center",
+          "type": "Point",
+          "access": "item",
+          "optional": true
+        }
+      ],
+      "outputs": [],
+      "slug": "set-frustum"
+    },
+    {
+      "id": "DurationCounter",
+      "kind": "component",
+      "name": "Duration Counter",
+      "nickname": "DurationCounter",
+      "description": "A timer-based counter that increments from Start to End over Duration seconds. Click Play to run it, Pause to hold the current value and Play again to carry on; it stays at End when finished, and Play then runs it again from Start. Reset goes back to Start. The activate input still works: switching it on plays, switching it off pauses.",
+      "category": "Snowyplover",
+      "section": "02 Timeline",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "duration-counter.png",
+      "buttons": [
+        "Play",
+        "Reset"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "activate",
+          "nickname": "R",
+          "description": "Optional. Switching it on plays the counter, switching it off pauses it. The Play / Pause button does the same",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "start",
+          "nickname": "S",
+          "description": "Start number",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "end",
+          "nickname": "E",
+          "description": "End number (default = 1)",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "digits",
+          "nickname": "D",
+          "description": "Number of decimal places",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "4"
+        },
+        {
+          "name": "totalDuration",
+          "nickname": "TD",
+          "description": "Time duration in seconds",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "fps",
+          "nickname": "fps",
+          "description": "Frames per second (default = 30)",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "30"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "t_Counter",
+          "nickname": "T",
+          "description": "Counter output",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "duration-counter"
+    },
+    {
+      "id": "EventTimeline",
+      "kind": "component",
+      "name": "Event Timeline",
+      "nickname": "EventTimeline",
+      "description": "Split a normalized t (0..1) into events. Each event has its own 0..1 output.\nt can be master T, Design Option Timeline progress, or an event output of another Event Timeline.\nduration (seconds) is only used to display and snap the timeline in seconds.\nDrag bars to edit, +/- to add or remove events, hold Shift while dragging to disable snapping.",
+      "category": "Snowyplover",
+      "section": "02 Timeline",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "event-timeline.png",
+      "buttons": [],
+      "variableParams": true,
+      "inputs": [
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]. One value, or a list (e.g. progress) picked by index. Null t -> all events output null.",
+          "type": "Number",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "duration",
+          "nickname": "D",
+          "description": "Optional. Seconds represented by t (e.g. totalDuration, or slotSeconds from Design Option Timeline). One value, or a list picked by index. Display only.",
+          "type": "Number",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "index",
+          "nickname": "I",
+          "description": "Item to pick when t / duration are lists. Default 0.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "fps",
+          "nickname": "fps",
+          "description": "Frames per second, used by 'Snap: Frame'.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "30"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "domains",
+          "nickname": "D",
+          "description": "Domain of each event in the input t space [0,1]. Can feed Design Option Timeline domains.",
+          "type": "Domain",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "eventSeconds",
+          "nickname": "S",
+          "description": "Length of each event in seconds (empty when duration is not connected). Feed it to a nested Event Timeline's duration.",
+          "type": "Number",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "event-timeline"
+    },
+    {
+      "id": "ApplyDesignOption",
+      "kind": "component",
+      "name": "Apply Design Option",
+      "nickname": "ApplyOption",
+      "description": "Show / hide design option layers in the Rhino document using the visibility list from Design Option Timeline.\nConnect the SAME options input as Design Option Timeline. Click the button to switch it on or off. Original layer visibility is recorded when switched on and restored when switched off (right-click to change).",
+      "category": "Snowyplover",
+      "section": "02 Timeline",
+      "guid": null,
+      "exposure": "tertiary",
+      "icon": "apply-design-option.png",
+      "buttons": [
+        "Inactive"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "options",
+          "nickname": "L",
+          "description": "Option layers. Use the same input as Design Option Timeline.",
+          "type": "Text",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "visibility",
+          "nickname": "V",
+          "description": "Visibility per option, from Design Option Timeline.",
+          "type": "Boolean",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "status",
+          "nickname": "S",
+          "description": "Status",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "apply-design-option"
+    },
+    {
+      "id": "DesignOptionTimeline",
+      "kind": "component",
+      "name": "Design Option Timeline",
+      "nickname": "OptionTimeline",
+      "description": "Map a normalized t (0..1) to design options stored on Rhino layers. Hard cut between options, with optional blank gaps.\nOptions input: ONE layer -> its direct sub layers become the options. TWO OR MORE layers -> each layer is one option.\nThis component does not modify the Rhino document. Use Apply Design Option to change layer visibility.",
+      "category": "Snowyplover",
+      "section": "02 Timeline",
+      "guid": null,
+      "exposure": "tertiary",
+      "icon": "design-option-timeline.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "options",
+          "nickname": "L",
+          "description": "Option layers. One parent layer (its sub layers are the options) or a list of layer full paths / names.",
+          "type": "Text",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "durations",
+          "nickname": "D",
+          "description": "Relative duration weights for each option in the sequence. If left empty, all options are equal length. Missing or non-positive values default to 1.0.",
+          "type": "Number",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "gap",
+          "nickname": "G",
+          "description": "Blank gap weight between options, in the same unit as durations. 0 = pure hard cut. Right-click to add a gap at the start / end.",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "sequence",
+          "nickname": "S",
+          "description": "Optional playback order as option indices, e.g. [0,1,0,2]. If left empty, options play once in order.",
+          "type": "Integer",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "domains",
+          "nickname": "I",
+          "description": "Optional domains in t space [0,1], one per sequence item (e.g. Event Timeline domains). If provided, durations and gap are ignored: an option is visible while t is inside its domain, blank otherwise.",
+          "type": "Domain",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "totalDuration",
+          "nickname": "TD",
+          "description": "Optional. Total animation duration in seconds (same value as View Capture Driver). Enables slotSeconds.",
+          "type": "Number",
+          "access": "item",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "visibility",
+          "nickname": "V",
+          "description": "Visibility per option. Connect to Apply Design Option.",
+          "type": "Boolean",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "progress",
+          "nickname": "P",
+          "description": "Progress per sequence item: 0 before its slot, 0..1 inside, 1 after. Use it to drive animations that belong to one option (e.g. arrows). Right-click 'Progress: Null Outside Slot' to output null instead of 0 / 1 outside the slot.",
+          "type": "Number",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "slotSeconds",
+          "nickname": "S",
+          "description": "Length of each sequence item in seconds (needs totalDuration). Pair with progress for Event Timeline duration.",
+          "type": "Number",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "index",
+          "nickname": "I",
+          "description": "Index of the visible option (-1 during a blank gap)",
+          "type": "Integer",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "localT",
+          "nickname": "t",
+          "description": "Local t within the current option or gap [0..1]",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "isGap",
+          "nickname": "G",
+          "description": "True during a blank gap",
+          "type": "Boolean",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "nickname": "N",
+          "description": "Layer name of the visible option (empty during a blank gap)",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "slotDomains",
+          "nickname": "D",
+          "description": "Domain of each sequence item in t space [0,1].",
+          "type": "Domain",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "layers",
+          "nickname": "L",
+          "description": "Full paths of the resolved option layers (for reference)",
+          "type": "Text",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "design-option-timeline"
+    },
+    {
+      "id": "ViewCaptureDriver",
+      "kind": "component",
+      "name": "View Capture Driver",
+      "nickname": "VCDriver",
+      "description": "Capture frames from a Rhino viewport. The exporter drives t itself and renders strictly frame by frame. Click the button to start exporting; click it again while exporting to stop.",
+      "category": "Snowyplover",
+      "section": "02 Timeline",
+      "guid": "87044882-229f-479d-b5bd-7c3469f1ca85",
+      "exposure": "quarternary",
+      "icon": "view-capture-driver.png",
+      "buttons": [
+        "Export Frames"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "totalDuration",
+          "nickname": "TD",
+          "description": "Duration in seconds",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "fps",
+          "nickname": "fps",
+          "description": "Frames per second",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "30"
+        },
+        {
+          "name": "path",
+          "nickname": "P",
+          "description": "Output folder path",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "viewName",
+          "nickname": "V",
+          "description": "Viewport name (default = active)",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": ""
+        },
+        {
+          "name": "width",
+          "nickname": "W",
+          "description": "Image width (default = viewport)",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "height",
+          "nickname": "H",
+          "description": "Image height (default = viewport)",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "baseName",
+          "nickname": "N",
+          "description": "Base file name",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": "keyframe"
+        },
+        {
+          "name": "transparent",
+          "nickname": "T",
+          "description": "Capture with transparent background (outputs PNG when true)",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "master Time",
+          "nickname": "T",
+          "description": "Normalized time [0..1] generated by the exporter",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "frame Index",
+          "nickname": "I",
+          "description": "Current frame index being prepared / last saved frame index",
+          "type": "Integer",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "frame Count",
+          "nickname": "C",
+          "description": "Total number of frames",
+          "type": "Integer",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "done",
+          "nickname": "D",
+          "description": "True when all frames have been exported",
+          "type": "Boolean",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "view-capture-driver"
+    },
+    {
+      "id": "AnimateArrow",
+      "kind": "component",
+      "name": "Animate Arrow",
+      "nickname": "AnimateArrow",
+      "description": "Animate arrows based on provided curves",
+      "category": "Snowyplover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "animate-arrow.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "curves",
+          "nickname": "C",
+          "description": "Reference Planar Curves to animate Arrows",
+          "type": "Curve",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized time parameter in [0,1]. If t is null (e.g. Design Option Timeline with 'Null Outside Slot'), nothing is output.",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "lineType",
+          "nickname": "LT",
+          "description": "Line Types, 0 = solid, 1 = Dotted line, 2 = Dash Line",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "arrowType",
+          "nickname": "AT",
+          "description": "Arrow Type, 0 = Polyline, 1 = Triangle",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "arrowLength",
+          "nickname": "AL",
+          "description": "Arrow Length",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "arrowThickness",
+          "nickname": "ATh",
+          "description": "Arrow Thickness (Polyline arrow only)",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "curveThickness",
+          "nickname": "CT",
+          "description": "Curve Thickness",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "dotSpacing",
+          "nickname": "DS",
+          "description": "Dotted Line spacing",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "dashPattern",
+          "nickname": "PT",
+          "description": "Dash pattern: dash, gap, dash, gap ... All values must be > 0. Default [2,3]",
+          "type": "Number",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "arrowPlane",
+          "nickname": "AP",
+          "description": "Optional reference planes for arrow orientation",
+          "type": "Plane",
+          "access": "list",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "curveStrokes",
+          "nickname": "C",
+          "description": "Curves strokes",
+          "type": "Curve",
+          "access": "tree",
+          "optional": false
+        },
+        {
+          "name": "arrowStrokes",
+          "nickname": "A",
+          "description": "Arrow strokes",
+          "type": "Curve",
+          "access": "tree",
+          "optional": false
+        },
+        {
+          "name": "planes",
+          "nickname": "P",
+          "description": "Reference planes at t",
+          "type": "Plane",
+          "access": "tree",
+          "optional": false
+        }
+      ],
+      "slug": "animate-arrow"
+    },
+    {
+      "id": "AnimateCurve",
+      "kind": "component",
+      "name": "Animate Curve",
+      "nickname": "AnimateCurve",
+      "description": "Animate a curve by its normalized domain",
+      "category": "Snowyplover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "animate-curve.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "curve",
+          "nickname": "C",
+          "description": "Base Curve t",
+          "type": "Curve",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "timeline,From 0 to 1",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "flip",
+          "nickname": "F",
+          "description": "if flip the curve direction",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "mode",
+          "nickname": "M",
+          "description": "Start Mode",
+          "type": "Integer",
+          "access": "item",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "animatedCurve",
+          "nickname": "C",
+          "description": "Animated Curve",
+          "type": "Curve",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "animate-curve"
+    },
+    {
+      "id": "AnimateObjectsMove",
+      "kind": "component",
+      "name": "Animate Objects Move",
+      "nickname": "AnimateObjectsMove",
+      "description": "Move one object between two recorded positions. Click set A and set B to record where it starts and ends, then drive t from 0 to 1. Turn on apply to move the Rhino object itself instead of a preview; reset releases it.",
+      "category": "SnowyPlover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "animate-objects-move.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "geometry",
+          "nickname": "G",
+          "description": "Rhino referenced geometry or GH geometry",
+          "type": "Geometry",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "set A",
+          "nickname": "A",
+          "description": "Record position A",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "set B",
+          "nickname": "B",
+          "description": "Record position B",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Interpolation factor from 0 to 1",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "apply",
+          "nickname": "A",
+          "description": "Apply movement to Rhino object",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "reset",
+          "nickname": "R",
+          "description": "Reset record and release applied transform",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "previewGeometry",
+          "nickname": "G",
+          "description": "Preview geometry at interpolated position",
+          "type": "Geometry",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "position A",
+          "nickname": "A",
+          "description": "Recorded position A",
+          "type": "Point",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "position B",
+          "nickname": "B",
+          "description": "Recorded position B",
+          "type": "Point",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "object Id",
+          "nickname": "ID",
+          "description": "Referenced Rhino object id",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "status",
+          "nickname": "S",
+          "description": "Status",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "animate-objects-move"
+    },
+    {
+      "id": "AnimateSectionCut",
+      "kind": "component",
+      "name": "Animate Section Cut",
+      "nickname": "AnimateSectionCut",
+      "description": "Animate section cut using a parameter t (0..1) along X/Y/Z of a reference plane.",
+      "category": "Snowyplover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "animate-section-cut.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Animation parameter (0.0 → 1.0)",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "geometry",
+          "nickname": "G",
+          "description": "Geometry to be section cut(Brep/Mesh/Extrusion,Subd)",
+          "type": "Geometry",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "plane",
+          "nickname": "p",
+          "description": "Reference plane defining cutting direction(default = world XY)",
+          "type": "Plane",
+          "access": "item",
+          "optional": true
+        },
+        {
+          "name": "flip",
+          "nickname": "F",
+          "description": "Flip section direction",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "Union",
+          "nickname": "U",
+          "description": "If true: treat the input list as one object for animation range (use union bounding box).\nIf false: each object uses its own bounding box (each object cuts itself).",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "KeepNegative",
+          "nickname": "N",
+          "description": "If true, keep the negative side of the cutting plane. If false, keep the positive side.",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "nickname": "R",
+          "description": "Sectional geometry result",
+          "type": "Generic",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "animate-section-cut"
+    },
+    {
+      "id": "AnimateSurface",
+      "kind": "component",
+      "name": "Animate Surface",
+      "nickname": "AnimateSurface",
+      "description": "Animate a surface growing along u and v directions",
+      "category": "SnowyPlover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "animate-surface.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "surface",
+          "nickname": "S",
+          "description": "Base surfaces",
+          "type": "Surface",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "tU",
+          "nickname": "tU",
+          "description": "Growth ratio along U (0-1)",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "tV",
+          "nickname": "tV",
+          "description": "Growth ratio along V (0-1)",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "flipU",
+          "nickname": "fU",
+          "description": "Flip U direction (Edge Mode Only)",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "flipV",
+          "nickname": "fV",
+          "description": "Flip V direction (Edge Mode Only)",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "mode",
+          "nickname": "M",
+          "description": "Growth mode: 0 = Edge, 1 = Middle.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "animatedSurface",
+          "nickname": "S",
+          "description": "Resulting animated surface",
+          "type": "Surface",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "animate-surface"
+    },
+    {
+      "id": "AnimateClippingPlane",
+      "kind": "component",
+      "name": "Animate Clipping Plane",
+      "nickname": "AnimateClippingPlane",
+      "description": "Animate the clipping plane by a given plane",
+      "category": "Snowyplover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "animate-clipping-plane.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "clippingPlaneID",
+          "nickname": "ID",
+          "description": "Clipping plane GUID",
+          "type": "Guid",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "referencePlane",
+          "nickname": "P",
+          "description": "Reference plane for clipping plane",
+          "type": "Plane",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "ifFlip",
+          "nickname": "F",
+          "description": "Flip the clipping plane",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [],
+      "slug": "animate-clipping-plane"
+    },
+    {
+      "id": "DeconstructClippingPlane",
+      "kind": "component",
+      "name": "Deconstruct Clipping Plane",
+      "nickname": "DeconstructClippingPlane",
+      "description": "Read the plane and normal of a Rhino clipping plane from its id.",
+      "category": "Snowyplover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "deconstruct-clipping-plane.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "clippingPlaneID",
+          "nickname": "ID",
+          "description": "Clipping plane GUID",
+          "type": "Guid",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "plane",
+          "nickname": "P",
+          "description": "Plane of the clipping plane",
+          "type": "Plane",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "normal",
+          "nickname": "V",
+          "description": "Normal vertor of the clipping plane",
+          "type": "Vector",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "deconstruct-clipping-plane"
+    },
+    {
+      "id": "AnimateObjectsOnCurves",
+      "kind": "component",
+      "name": "Animate Objects On Curves",
+      "nickname": "RandObjs",
+      "description": "Randomly distributes indexed objects along each input curve branch, treating each branch as one continuous path system.Creates placement references for downstr eam object instancing by generating planes and object type indices.",
+      "category": "SnowyPlover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "tertiary",
+      "icon": "animate-objects-on-curves.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "curves",
+          "nickname": "*C",
+          "description": "Input curves as a tree. Each branch is treated as one continuous path system.",
+          "type": "Curve",
+          "access": "tree",
+          "optional": false
+        },
+        {
+          "name": "objectLengths",
+          "nickname": "*L",
+          "description": "Length of each object type. Example: [4.5, 6.0].",
+          "type": "Number",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "ratios",
+          "nickname": "*R",
+          "description": "Relative occurrence ratio for each object type. Must match Object Lengths count.",
+          "type": "Integer",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "density",
+          "nickname": "D",
+          "description": "Maximum number of ratio-cycles to attempt per branch.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "1"
+        },
+        {
+          "name": "safeDistance",
+          "nickname": "S",
+          "description": "Minimum spacing between neighboring objects.",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "jitter",
+          "nickname": "J",
+          "description": "Randomness factor for redistributing leftover gap lengths. Usually between 0 and 1.",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "seed",
+          "nickname": "S",
+          "description": "Random seed for reproducible results.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "1"
+        },
+        {
+          "name": "animate",
+          "nickname": "*A",
+          "description": "If true, placement positions are shifted along each branch to simulate movement.",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Normalized animation phase from 0 to 1.",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "speed",
+          "nickname": "S",
+          "description": "Movement speed multiplier. Higher values produce larger travel distance for the same t. Mostly ranges from -10.0 to 10.0Negative values reverse the direction",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "reverseDirection",
+          "nickname": "R",
+          "description": "Reverse the direction of the movement.",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "locations",
+          "nickname": "P",
+          "description": "Placement planes for objects.",
+          "type": "Plane",
+          "access": "tree",
+          "optional": false
+        },
+        {
+          "name": "objectIndices",
+          "nickname": "I",
+          "description": "Index of the chosen object type for each placement.",
+          "type": "Integer",
+          "access": "tree",
+          "optional": false
+        }
+      ],
+      "slug": "animate-objects-on-curves"
+    },
+    {
+      "id": "JitterCurve",
+      "kind": "component",
+      "name": "Jitter Curve",
+      "nickname": "JitterCurve",
+      "description": "JitterCurve",
+      "category": "Snowyplover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "tertiary",
+      "icon": "jitter-curve.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "curve",
+          "nickname": "C",
+          "description": "Input curve",
+          "type": "Curve",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "count",
+          "nickname": "N",
+          "description": "Number of jitter points on curve (>=2)",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "10"
+        },
+        {
+          "name": "distance",
+          "nickname": "D",
+          "description": "Max jitter distance (model units)",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "seed",
+          "nickname": "S",
+          "description": "Random seed",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "1"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Points",
+          "nickname": "P",
+          "description": "Jittered points",
+          "type": "Point",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "jitter-curve"
+    },
+    {
+      "id": "ScaleAnimatedGeometry",
+      "kind": "component",
+      "name": "Scale Animated Geometry",
+      "nickname": "ScaleAnimatedGeometry",
+      "description": "Animate geometry growth by scaling it uniformly",
+      "category": "Snowyplover",
+      "section": "03 Effect",
+      "guid": null,
+      "exposure": "tertiary",
+      "icon": "scale-animated-geometry.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "geometry",
+          "nickname": "G",
+          "description": "Geometry to be scaled",
+          "type": "Geometry",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "Animation parameter (0.0 → 1.0)",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "Center",
+          "nickname": "C",
+          "description": "Center Point",
+          "type": "Point",
+          "access": "item",
+          "optional": true,
+          "default": "Origin"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Geometry",
+          "nickname": "G",
+          "description": "Scaled geometry.",
+          "type": "Geometry",
+          "access": "tree",
+          "optional": false
+        },
+        {
+          "name": "XForm",
+          "nickname": "X",
+          "description": "Scale transform used.",
+          "type": "Transform",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "scale-animated-geometry"
+    },
+    {
+      "id": "ColorOpacity",
+      "kind": "component",
+      "name": "Color Opacity",
+      "nickname": "ColorOpacity",
+      "description": "Animate color opacity using t from 0 to 1",
+      "category": "Snowyplover",
+      "section": "04 Display",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "color-opacity.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "t",
+          "nickname": "t",
+          "description": "timeline,From 0 to 1",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "red",
+          "nickname": "R",
+          "description": "Red",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "green",
+          "nickname": "G",
+          "description": "Green",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "blue",
+          "nickname": "B",
+          "description": "Blue",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "mode",
+          "nickname": "M",
+          "description": "Display Mode",
+          "type": "Integer",
+          "access": "item",
+          "optional": true
+        },
+        {
+          "name": "reverse",
+          "nickname": "R",
+          "description": "Reverse color sequence",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Color",
+          "nickname": "C",
+          "description": "Displayed Color",
+          "type": "Colour",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "color-opacity"
+    },
+    {
+      "id": "ColorPreview",
+      "kind": "component",
+      "name": "Color Preview",
+      "nickname": "ColorPreview",
+      "description": "Preview geometry in the viewport with a given color. Pair it with Color Opacity to fade geometry in or out.",
+      "category": "Snowyplover",
+      "section": "04 Display",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "color-preview.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "geometry",
+          "nickname": "G",
+          "description": "Geometry to preview.",
+          "type": "Geometry",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "color",
+          "nickname": "C",
+          "description": "Preview color.",
+          "type": "Colour",
+          "access": "item",
+          "optional": true,
+          "default": "White"
+        }
+      ],
+      "outputs": [],
+      "slug": "color-preview"
+    },
+    {
+      "id": "DisplayTextOnViewport",
+      "kind": "component",
+      "name": "Display Text On Viewport",
+      "nickname": "DisplayTextOnViewport",
+      "description": "Display text on viewport",
+      "category": "Snowyplover",
+      "section": "04 Display",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "display-text-on-viewport.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "Text",
+          "nickname": "T",
+          "description": "Text to display",
+          "type": "Text",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "Color",
+          "nickname": "C",
+          "description": "Text color",
+          "type": "Colour",
+          "access": "item",
+          "optional": true,
+          "default": "DimGray"
+        },
+        {
+          "name": "Size",
+          "nickname": "S",
+          "description": "Text Size",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "12"
+        },
+        {
+          "name": "XMargin",
+          "nickname": "X",
+          "description": "X coordinate",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "50"
+        },
+        {
+          "name": "YMargin",
+          "nickname": "Y",
+          "description": "Y coordinate",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "50"
+        }
+      ],
+      "outputs": [],
+      "slug": "display-text-on-viewport"
+    },
+    {
+      "id": "RandomColor",
+      "kind": "component",
+      "name": "Random Color",
+      "nickname": "RandomColor",
+      "description": "Generate a random color",
+      "category": "SnowyPlover",
+      "section": "04 Display",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "random-color.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "Count",
+          "nickname": "N",
+          "description": "the number of random color",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "Seed",
+          "nickname": "S",
+          "description": "seed",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Color",
+          "nickname": "C",
+          "description": "Color in R.G.B",
+          "type": "Colour",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "random-color"
+    },
+    {
+      "id": "GradientColorCurve",
+      "kind": "component",
+      "name": "Gradient Color Curve",
+      "nickname": "GradientColorCurve",
+      "description": "Draw gradient color on curves",
+      "category": "SnowyPlover",
+      "section": "04 Display",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "gradient-color-curve.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "displayedCurve",
+          "nickname": "DC",
+          "description": "Curves to be drawn with gradients",
+          "type": "Curve",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "baseCurve",
+          "nickname": "BC",
+          "description": "Curves to guide the gradient direction. ",
+          "type": "Curve",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "thickness",
+          "nickname": "T",
+          "description": "Display Thickness",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "color1",
+          "nickname": "C1",
+          "description": "color1",
+          "type": "Colour",
+          "access": "list",
+          "optional": true,
+          "default": "White"
+        },
+        {
+          "name": "color2",
+          "nickname": "C2",
+          "description": "color2",
+          "type": "Colour",
+          "access": "list",
+          "optional": true,
+          "default": "Black"
+        }
+      ],
+      "outputs": [],
+      "slug": "gradient-color-curve"
+    },
+    {
+      "id": "GradientColorLine",
+      "kind": "component",
+      "name": "Gradient Color Line",
+      "nickname": "GradientColorLine",
+      "description": "Draw gradient color on lines",
+      "category": "SnowyPlover",
+      "section": "04 Display",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "gradient-color-line.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "displayedLine",
+          "nickname": "DL",
+          "description": "Lines to apply gradient color",
+          "type": "Line",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "baseLine",
+          "nickname": "BL",
+          "description": "Base Lines to guide gradient direction",
+          "type": "Line",
+          "access": "list",
+          "optional": true
+        },
+        {
+          "name": "Thickness",
+          "nickname": "T",
+          "description": "Thickness",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "Color1",
+          "nickname": "C1",
+          "description": "Color1",
+          "type": "Colour",
+          "access": "item",
+          "optional": true,
+          "default": "White"
+        },
+        {
+          "name": "Color2",
+          "nickname": "C2",
+          "description": "Color2",
+          "type": "Colour",
+          "access": "item",
+          "optional": true,
+          "default": "Black"
+        }
+      ],
+      "outputs": [],
+      "slug": "gradient-color-line"
+    },
+    {
+      "id": "GradientColorMesh",
+      "kind": "component",
+      "name": "Gradient Color Mesh",
+      "nickname": "GradientColorMesh",
+      "description": "Draw gradient color on meshes",
+      "category": "SnowyPlover",
+      "section": "04 Display",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "gradient-color-mesh.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "Mesh",
+          "nickname": "M",
+          "description": "Meshes to be drawn with gradients.",
+          "type": "Mesh",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "Line",
+          "nickname": "L",
+          "description": "Gradient Direction",
+          "type": "Line",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "Color1",
+          "nickname": "C1",
+          "description": "Color1",
+          "type": "Colour",
+          "access": "list",
+          "optional": true,
+          "default": "White"
+        },
+        {
+          "name": "Color2",
+          "nickname": "C2",
+          "description": "Color2",
+          "type": "Colour",
+          "access": "list",
+          "optional": true,
+          "default": "Black"
+        }
+      ],
+      "outputs": [],
+      "slug": "gradient-color-mesh"
+    },
+    {
+      "id": "MeshOutlinePreview",
+      "kind": "component",
+      "name": "Mesh Outline Preview",
+      "nickname": "MeshOutline",
+      "description": "Outline of meshes as seen from a camera, like Rhino's MeshOutline command, recomputed whenever the camera moves. Connect a camera to follow an animation (use this when exporting frames). Leave it empty to follow a Rhino viewport live; the button switches live updates on or off. The outlines lie on a plane through the camera target, square to the view, so they line up with the model from that camera. Breps, extrusions and SubDs are meshed first. Right-click to draw the outlines on top of the model.",
+      "category": "Snowyplover",
+      "section": "04 Display",
+      "guid": "5b8e2c7a-41d3-4f96-a0b2-9e6c3d17f248",
+      "exposure": "secondary",
+      "icon": "mesh-outline-preview.png",
+      "buttons": [
+        "Live"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "geometry",
+          "nickname": "G",
+          "description": "Meshes, Breps, extrusions or SubDs to outline",
+          "type": "Geometry",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "camera",
+          "nickname": "C",
+          "description": "Optional. Camera to outline from. Leave empty to follow a Rhino viewport live",
+          "type": "Camera",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "viewName",
+          "nickname": "V",
+          "description": "Optional. Viewport to follow when no camera is connected (default = active viewport)",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "merge",
+          "nickname": "M",
+          "description": "True = one outline around all objects together; False = one outline per object",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        },
+        {
+          "name": "color",
+          "nickname": "Col",
+          "description": "Preview color",
+          "type": "Colour",
+          "access": "item",
+          "optional": true,
+          "default": "Black"
+        },
+        {
+          "name": "thickness",
+          "nickname": "Th",
+          "description": "Preview line thickness in pixels",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "2"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "outlines",
+          "nickname": "O",
+          "description": "Outline curves, one branch per object (one branch when merged)",
+          "type": "Curve",
+          "access": "tree",
+          "optional": false
+        },
+        {
+          "name": "plane",
+          "nickname": "P",
+          "description": "Plane the outlines lie on: through the camera target, square to the view",
+          "type": "Plane",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "mesh-outline-preview"
+    },
+    {
+      "id": "BoxMappingEachNew",
+      "kind": "component",
+      "name": "Box Mapping Each",
+      "nickname": "BoxMappingEach",
+      "description": "Generate box mapping for each individual objects. Supports breps and meshes",
+      "category": "SnowyPlover",
+      "section": "04 Display",
+      "guid": null,
+      "exposure": "tertiary",
+      "icon": "box-mapping-each.png",
+      "buttons": [
+        "Bake"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "geometry",
+          "nickname": "G",
+          "description": "Breps or Meshes to get box mapping",
+          "type": "Geometry",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "length",
+          "nickname": "L",
+          "description": "Base box length (X)",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "width",
+          "nickname": "W",
+          "description": "Base box width (Y)",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "height",
+          "nickname": "H",
+          "description": "Base box height (Z)",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "scaleDomain",
+          "nickname": "SD",
+          "description": "Random scale domain. Default 1..1 means no random scaling.",
+          "type": "Domain",
+          "access": "item",
+          "optional": true,
+          "default": "1.0 to 1.0"
+        },
+        {
+          "name": "scaleSeed",
+          "nickname": "SS",
+          "description": "Random seed for scale",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "offsetDomain",
+          "nickname": "OD",
+          "description": "Random center offset domain along the local box axes. Default 0..0 means no offset.",
+          "type": "Domain",
+          "access": "item",
+          "optional": true,
+          "default": "0.0 to 0.0"
+        },
+        {
+          "name": "offsetSeed",
+          "nickname": "OS",
+          "description": "Random seed for center offset.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "angleMax",
+          "nickname": "AM",
+          "description": "Max random rotation angle around box Z axis (radians). Default 0.",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "angleSeed",
+          "nickname": "AS",
+          "description": "Random seed for rotation angle",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "bake",
+          "nickname": "B",
+          "description": "Apply box texture mapping to referenced Rhino geometries in the active Rhino document.This only works for referenced Rhino objects, internal grasshopper geometry is not modified.",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "meshes",
+          "nickname": "M",
+          "description": "Meshes with box-mapped UV",
+          "type": "Mesh",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "boxes",
+          "nickname": "B",
+          "description": "Mapping boxes (after random scale/rotation)",
+          "type": "Box",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "scales",
+          "nickname": "S",
+          "description": "Scale factors per brep",
+          "type": "Number",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "box-mapping-each"
+    },
+    {
+      "id": "FramesToGifs",
+      "kind": "component",
+      "name": "FramesToGifs",
+      "nickname": "F2Gif",
+      "description": "Turn an exported frame sequence ({baseName}_000000.jpg/png from View Capture Driver) into a GIF with ffmpeg. Click the button to start; click it again while encoding to cancel. ffmpeg must be installed: put it on PATH, next to the plugin, or set ffmpegPath.",
+      "category": "Snowyplover",
+      "section": "05 Video",
+      "guid": "50e1e076-e904-4eaf-ac4a-2a941cecc9ef",
+      "exposure": "primary",
+      "icon": "frames-to-gifs.png",
+      "buttons": [
+        "Make GIF"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "folder",
+          "nickname": "P",
+          "description": "Folder that holds the frames (the path of View Capture Driver)",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "baseName",
+          "nickname": "N",
+          "description": "Base file name of the frames",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": "keyframe"
+        },
+        {
+          "name": "frameRate",
+          "nickname": "fps",
+          "description": "Frame rate of the sequence (the fps it was exported with). Sets the GIF duration",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "30"
+        },
+        {
+          "name": "gifFps",
+          "nickname": "GF",
+          "description": "Frame rate of the GIF. Lower means a smaller file. 0 = same as frameRate",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "15"
+        },
+        {
+          "name": "width",
+          "nickname": "W",
+          "description": "GIF width in pixels, height keeps the aspect ratio. 0 = original size",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "loop",
+          "nickname": "L",
+          "description": "0 = loop forever, -1 = play once, n = repeat n times",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "output",
+          "nickname": "O",
+          "description": "Output .gif path (default = {folder}\\{baseName}.gif)",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": ""
+        },
+        {
+          "name": "ffmpegPath",
+          "nickname": "FF",
+          "description": "Path to ffmpeg.exe or its folder. Leave empty to search next to the plugin, PATH and winget installs. Run \"where.exe ffmpeg\" in a terminal to find it",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "gifPath",
+          "nickname": "G",
+          "description": "Path of the finished GIF",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "done",
+          "nickname": "D",
+          "description": "True when the file has been written",
+          "type": "Boolean",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "log",
+          "nickname": "L",
+          "description": "Last lines of the ffmpeg log",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "frames-to-gifs"
+    },
+    {
+      "id": "FramesToVideo",
+      "kind": "component",
+      "name": "FramesToVideo",
+      "nickname": "F2Video",
+      "description": "Turn an exported frame sequence ({baseName}_000000.jpg/png from View Capture Driver) into a video with ffmpeg. MP4 (H.264) plays everywhere; MOV (ProRes 4444) keeps transparency for compositing in After Effects or Premiere. Click the button to start; click it again while encoding to cancel. ffmpeg must be installed: put it on PATH, next to the plugin, or set ffmpegPath.",
+      "category": "Snowyplover",
+      "section": "05 Video",
+      "guid": "c3a41f6e-8b2d-4e57-9a0c-6d1e2f7b8a94",
+      "exposure": "primary",
+      "icon": "frames-to-video.png",
+      "buttons": [
+        "Make Video"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "folder",
+          "nickname": "P",
+          "description": "Folder that holds the frames (the path of View Capture Driver)",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "baseName",
+          "nickname": "N",
+          "description": "Base file name of the frames",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": "keyframe"
+        },
+        {
+          "name": "frameRate",
+          "nickname": "fps",
+          "description": "Frame rate of the sequence (the fps it was exported with) and of the video",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "30"
+        },
+        {
+          "name": "format",
+          "nickname": "F",
+          "description": "0 = MP4 (H.264, plays everywhere, no transparency), 1 = MOV (ProRes 4444, keeps transparency, large files). Right-click to pick",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0",
+          "values": [
+            {
+              "value": "0",
+              "label": "MP4 (H.264)"
+            },
+            {
+              "value": "1",
+              "label": "MOV (ProRes 4444)"
+            }
+          ]
+        },
+        {
+          "name": "quality",
+          "nickname": "Q",
+          "description": "MP4 only: CRF 0-51, lower is better and larger. 18 looks nearly lossless, 23 is ffmpeg's default",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "18"
+        },
+        {
+          "name": "width",
+          "nickname": "W",
+          "description": "Video width in pixels, height keeps the aspect ratio. 0 = original size",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "output",
+          "nickname": "O",
+          "description": "Output path (default = {folder}\\{baseName}.mp4 or .mov)",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": ""
+        },
+        {
+          "name": "ffmpegPath",
+          "nickname": "FF",
+          "description": "Path to ffmpeg.exe or its folder. Leave empty to search next to the plugin, PATH and winget installs. Run \"where.exe ffmpeg\" in a terminal to find it",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "videoPath",
+          "nickname": "V",
+          "description": "Path of the finished video",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "done",
+          "nickname": "D",
+          "description": "True when the file has been written",
+          "type": "Boolean",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "log",
+          "nickname": "L",
+          "description": "Last lines of the ffmpeg log",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "frames-to-video"
+    },
+    {
+      "id": "JoinClips",
+      "kind": "component",
+      "name": "Join Clips",
+      "nickname": "JoinClips",
+      "description": "Join several exported frame sequences (one View Capture Driver folder per shot) into one video, with a cut or a transition (crossfade, fade through black, wipe ...) between each pair of clips. To blend two design options, export the same camera move once per option and join them with a crossfade. Clips with a different size are fitted into the size of the first clip with black bars. Click the button to start; click it again while encoding to cancel. Needs ffmpeg 4.3 or newer: put it on PATH, next to the plugin, or set ffmpegPath.",
+      "category": "Snowyplover",
+      "section": "05 Video",
+      "guid": "7d2b9e41-5c6a-4f83-b1e0-3a8f64c2d915",
+      "exposure": "primary",
+      "icon": "join-clips.png",
+      "buttons": [
+        "Join Clips"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "folders",
+          "nickname": "P",
+          "description": "Frame folders in playback order, one per clip (the path of each View Capture Driver export)",
+          "type": "Text",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "baseNames",
+          "nickname": "N",
+          "description": "Base file name of the frames: one value for all clips, or one per clip",
+          "type": "Text",
+          "access": "list",
+          "optional": true,
+          "default": "keyframe"
+        },
+        {
+          "name": "frameRate",
+          "nickname": "fps",
+          "description": "Frame rate of the sequences (the fps they were exported with) and of the video",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "30"
+        },
+        {
+          "name": "transitions",
+          "nickname": "T",
+          "description": "Transition between clips: one value for all, or one per join (clip count - 1). 0 = cut, 1 = crossfade, 2 = fade through black, 3 = fade through white, 4 = dissolve, 5-8 = wipe left/right/up/down, 9-10 = slide left/right, 11-12 = circle open/close. Right-click to pick",
+          "type": "Integer",
+          "access": "list",
+          "optional": true,
+          "default": "1",
+          "values": [
+            {
+              "value": "0",
+              "label": "Cut"
+            },
+            {
+              "value": "1",
+              "label": "Crossfade"
+            },
+            {
+              "value": "2",
+              "label": "Fade through black"
+            },
+            {
+              "value": "3",
+              "label": "Fade through white"
+            },
+            {
+              "value": "4",
+              "label": "Dissolve"
+            },
+            {
+              "value": "5",
+              "label": "Wipe left"
+            },
+            {
+              "value": "6",
+              "label": "Wipe right"
+            },
+            {
+              "value": "7",
+              "label": "Wipe up"
+            },
+            {
+              "value": "8",
+              "label": "Wipe down"
+            },
+            {
+              "value": "9",
+              "label": "Slide left"
+            },
+            {
+              "value": "10",
+              "label": "Slide right"
+            },
+            {
+              "value": "11",
+              "label": "Circle open"
+            },
+            {
+              "value": "12",
+              "label": "Circle close"
+            }
+          ]
+        },
+        {
+          "name": "transitionSeconds",
+          "nickname": "TS",
+          "description": "Length of each transition in seconds: one value for all, or one per join. The clips overlap by this much, so the video gets shorter",
+          "type": "Number",
+          "access": "list",
+          "optional": true,
+          "default": "1.0"
+        },
+        {
+          "name": "fadeIn",
+          "nickname": "FI",
+          "description": "Fade in from black at the start, in seconds (0 = none). Fades from transparent when the MOV keeps transparency",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "fadeOut",
+          "nickname": "FO",
+          "description": "Fade out to black at the end, in seconds (0 = none). Fades to transparent when the MOV keeps transparency",
+          "type": "Number",
+          "access": "item",
+          "optional": true,
+          "default": "0.0"
+        },
+        {
+          "name": "format",
+          "nickname": "F",
+          "description": "0 = MP4 (H.264, plays everywhere, no transparency), 1 = MOV (ProRes 4444, keeps transparency when every clip is PNG, large files). Right-click to pick",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0",
+          "values": [
+            {
+              "value": "0",
+              "label": "MP4 (H.264)"
+            },
+            {
+              "value": "1",
+              "label": "MOV (ProRes 4444)"
+            }
+          ]
+        },
+        {
+          "name": "quality",
+          "nickname": "Q",
+          "description": "MP4 only: CRF 0-51, lower is better and larger. 18 looks nearly lossless, 23 is ffmpeg's default",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "18"
+        },
+        {
+          "name": "width",
+          "nickname": "W",
+          "description": "Video width in pixels, height keeps the aspect ratio of the first clip. 0 = size of the first clip",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "0"
+        },
+        {
+          "name": "output",
+          "nickname": "O",
+          "description": "Output path (default = joined.mp4 or .mov next to the first folder)",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": ""
+        },
+        {
+          "name": "ffmpegPath",
+          "nickname": "FF",
+          "description": "Path to ffmpeg.exe or its folder. Leave empty to search next to the plugin, PATH and winget installs. Run \"where.exe ffmpeg\" in a terminal to find it",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": ""
+        }
+      ],
+      "outputs": [
+        {
+          "name": "videoPath",
+          "nickname": "V",
+          "description": "Path of the finished video",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "done",
+          "nickname": "D",
+          "description": "True when the file has been written",
+          "type": "Boolean",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "log",
+          "nickname": "L",
+          "description": "Last lines of the ffmpeg log",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "join-clips"
+    },
+    {
+      "id": "AssignMaterialsByLayers",
+      "kind": "component",
+      "name": "AssignMaterialsByLayers",
+      "nickname": "AssignMaterialsByLayers",
+      "description": "Create Rhino RenderMaterials from layer colors, assign them to layers, and set objects to use material By Layer.",
+      "category": "SnowyPlover",
+      "section": "06 Utility",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "assign-materials-by-layers.png",
+      "buttons": [
+        "Bake"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "skipLayersName",
+          "nickname": "N",
+          "description": "Text list of layer-name tokens to skip. Any layer whose full path contains one of these strings will be ignored.",
+          "type": "Text",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "bake",
+          "nickname": "B",
+          "description": "Set to True to apply materials to layers",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "report",
+          "nickname": "R",
+          "description": "Execution report.",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "assign-materials-by-layers"
+    },
+    {
+      "id": "RandomlyAssignObjectToLayers",
+      "kind": "component",
+      "name": "RandomlyAssignObjectToLayers",
+      "nickname": "RandomlyAssignObjectToLayers",
+      "description": "Randomly bake input geometries into generated Rhino layers with random layer colors. If the layers are already exist, it'll update. If not, it'll create new layers. Noted that, the layers will be named like baseLayerName01, baseLayerName02...",
+      "category": "Snowyplover",
+      "section": "06 Utility",
+      "guid": null,
+      "exposure": "primary",
+      "icon": "randomly-assign-object-to-layers.png",
+      "buttons": [
+        "Bake"
+      ],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "geometries",
+          "nickname": "G",
+          "description": "Geometries to bake into Rhino layers.",
+          "type": "Geometry",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "baseLayerName",
+          "nickname": "L",
+          "description": "Base layer name. Layers will be named like Base01, Base02, Base03...",
+          "type": "Text",
+          "access": "item",
+          "optional": true,
+          "default": "Layer_"
+        },
+        {
+          "name": "layerCount",
+          "nickname": "N",
+          "description": "Number of layers to generate.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "5"
+        },
+        {
+          "name": "seedObjects",
+          "nickname": "S",
+          "description": "Random seed for assigning objects to layers.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "1"
+        },
+        {
+          "name": "seedColors",
+          "nickname": "S",
+          "description": "Random seed for generating layer colors.",
+          "type": "Integer",
+          "access": "item",
+          "optional": true,
+          "default": "1"
+        },
+        {
+          "name": "bake",
+          "nickname": "B",
+          "description": "Set true to bake geometries into Rhino.",
+          "type": "Boolean",
+          "access": "item",
+          "optional": true,
+          "default": "false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "message",
+          "nickname": "M",
+          "description": "Bake report message.",
+          "type": "Text",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "layerNames",
+          "nickname": "L",
+          "description": "Generated layer names.",
+          "type": "Text",
+          "access": "list",
+          "optional": false
+        }
+      ],
+      "slug": "randomly-assign-object-to-layers"
+    },
+    {
+      "id": "DomainPartition",
+      "kind": "component",
+      "name": "Domain Partition",
+      "nickname": "Domain Partition",
+      "description": "divide a domain into equal segments and remap numbers into new sub-domains ",
+      "category": "Snowyplover",
+      "section": "06 Utility",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "domain-partition.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "vaule",
+          "nickname": "V",
+          "description": "Vaule to remap",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "domain",
+          "nickname": "I",
+          "description": "Base domain",
+          "type": "Domain",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "count",
+          "nickname": "C",
+          "description": "Number of Segments",
+          "type": "Integer",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Domains",
+          "nickname": "D",
+          "description": "Divided Domains",
+          "type": "Domain",
+          "access": "list",
+          "optional": false
+        },
+        {
+          "name": "Mapped",
+          "nickname": "V",
+          "description": "Remapped Vaule",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "domain-partition"
+    },
+    {
+      "id": "ReadSliderDomain",
+      "kind": "component",
+      "name": "Read Slider Domain",
+      "nickname": "ReadSliderDomain",
+      "description": "Read Slider Doamin",
+      "category": "Snowyplover",
+      "section": "06 Utility",
+      "guid": null,
+      "exposure": "secondary",
+      "icon": "read-slider-domain.png",
+      "buttons": [],
+      "variableParams": false,
+      "inputs": [
+        {
+          "name": "sliderInput",
+          "nickname": "S",
+          "description": "Connect a Number Slider",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "interval",
+          "nickname": "I",
+          "description": "The slider interval",
+          "type": "Domain",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "min",
+          "nickname": "Min",
+          "description": "Minimum of the slider",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "max",
+          "nickname": "Max",
+          "description": "Maximum of the slider",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "nickname": "V",
+          "description": "Current value of the slider",
+          "type": "Number",
+          "access": "item",
+          "optional": false
+        }
+      ],
+      "slug": "read-slider-domain"
+    }
+  ]
+}
