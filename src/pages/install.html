@@ -8,12 +8,13 @@ description: Install the SnowyPlover Grasshopper plugin and ffmpeg.
 <p class="lead">SnowyPlover runs in Grasshopper for Rhino 7 and Rhino 8. The video components also need ffmpeg, a free command-line encoder.</p>
 
 <h2>SnowyPlover</h2>
+<p>Install it from the Rhino Package Manager:</p>
 <ol class="steps">
-  <li>Get <code>SnowyPlover.gha</code>.</li>
-  <li>In Grasshopper, choose <b>File › Special Folders › Components Folder</b> and copy <code>SnowyPlover.gha</code> into the folder that opens.</li>
-  <li>On Windows, right-click the file, choose <b>Properties</b>, and tick <b>Unblock</b> if you see it. Windows blocks files that came from the internet, and Grasshopper will not load a blocked plugin.</li>
+  <li>In Rhino, run the <code>PackageManager</code> command, or choose <b>Tools › Package Manager</b>.</li>
+  <li>Search for <b>SnowyPlover</b>, select it and click <b>Install</b>.</li>
   <li>Restart Rhino and open Grasshopper. A <b>Snowyplover</b> tab appears, with sections from <i>Camera</i> to <i>Utility</i>.</li>
 </ol>
+<p>Updates come through the Package Manager too: open it, find SnowyPlover under <b>Installed</b>, and install the newer version.</p>
 
 <h2>ffmpeg</h2>
 <p>[[FramesToVideo]], [[FramesToGifs]] and [[Join Clips]] call ffmpeg to encode the frames. Everything else works without it.</p>
